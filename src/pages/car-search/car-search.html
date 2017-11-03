@@ -1,0 +1,115 @@
+<!--
+  Generated template for the CarSearchPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Fahrzeugsuche</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
+
+  <ion-item no-lines>
+    <ion-label>Nur Personen mit Fahrzeug anzeigen</ion-label>
+    <ion-checkbox color="dark" checked="true"></ion-checkbox>
+  </ion-item>
+
+
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 col-sm>
+        <ion-card>
+
+          <ion-card-header>
+            Suchkategorie
+          </ion-card-header>
+
+          <ion-card-content>
+
+            <ion-list radio-group [(ngModel)]="searchCategory">
+
+              <!-- <ion-list-header>
+                Suchkategorie
+              </ion-list-header> -->
+
+              <ion-item>
+                <ion-label>Name</ion-label>
+                <ion-radio value="name"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Kundennummer</ion-label>
+                <ion-radio value="kundennummer"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Telefonnummer</ion-label>
+                <ion-radio value="telefonnummer"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>E-Mail</ion-label>
+                <ion-radio value="email"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Fahrzeugnummer</ion-label>
+                <ion-radio value="fahrzeugnummer"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Amtl. Kennzeichen</ion-label>
+                <ion-radio value="kennzeichen"></ion-radio>
+              </ion-item>
+
+            </ion-list>
+
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col col-12 col-sm>
+        <ion-card>
+          <ion-card-header>
+            Suchfilter
+          </ion-card-header>
+      
+          <ion-card-content>
+
+            <ion-list radio-group [(ngModel)]="searchFilter">
+
+              <ion-item>
+                <ion-label>Kunden und Lieferanten</ion-label>
+                <ion-radio value="kundenundlieferanten"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Nur Kunden</ion-label>
+                <ion-radio value="kunden"></ion-radio>
+              </ion-item>
+
+              <ion-item>
+                <ion-label>Nur Lieferanten</ion-label>
+                <ion-radio value="lieferanten"></ion-radio>
+              </ion-item>
+
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <button ion-button block>
+      <ion-icon name="checkmark"></ion-icon>&nbsp;&nbsp;
+      Start
+  </button>
+
+</ion-content>
