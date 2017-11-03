@@ -11,69 +11,95 @@
 </ion-header>
 
 <ion-content padding>
-  <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
-  <ion-list>
 
-    <ion-item-divider class="lsMenuDivider">
-      <ion-icon name="person"></ion-icon>
-      Kunden
-    </ion-item-divider>
-    <button ion-item  class="lsMenu">
-      Kundensuche
-      <button ion-button clear item-end>
-        <ion-icon *ngIf="!showLastSearch" name="arrow-down" (click)="showLastSearch=!showLastSearch"></ion-icon>
-        <ion-icon *ngIf="showLastSearch" name="arrow-up" (click)="showLastSearch=!showLastSearch"></ion-icon>
-      </button>
-    </button>
-    <div *ngIf="showLastSearch">
-        <button ion-item class="lsSubMenu">
-          Herbert, Florian
-        </button>
-        <button ion-item class="lsSubMenu">
-          Förster, Laura
-        </button>
-        <button ion-item class="lsSubMenu">
-          Karger, Frank
-        </button>
-    </div>
-  
-    <button ion-item  class="lsMenu">
-      Kundenrader
-    </button>
+  <ion-grid>
+    <ion-row>
 
+      <ion-col col-12 col-sm>
+        <ion-list>
 
+          <ion-item-divider class="lsMenuDivider">
+            <ion-icon name="person"></ion-icon>
+            Kunden
+          </ion-item-divider>
+          <button ion-item class="lsMenu">
+            Kundensuche
+            <button ion-button clear item-end>
+              <ion-icon *ngIf="!showLastSearch" name="arrow-down" (click)="showLastSearch=!showLastSearch"></ion-icon>
+              <ion-icon *ngIf="showLastSearch" name="arrow-up" (click)="showLastSearch=!showLastSearch"></ion-icon>
+            </button>
+          </button>
+          <div *ngIf="showLastSearch">
+            <button ion-item class="lsSubMenu">
+              Herbert, Florian
+            </button>
+            <button ion-item class="lsSubMenu">
+              Förster, Laura
+            </button>
+            <button ion-item class="lsSubMenu">
+              Karger, Frank
+            </button>
+          </div>
 
-    <ion-item-divider class="lsMenuDivider">
-      <ion-icon name="car"></ion-icon>
-      Fahrzeuge
-    </ion-item-divider>
-    <div>
-      <button ion-item class="lsMenu" (click)="gotoCarSearch()">
-        Fahrzeugsuche
-      </button>
-    </div>
+          <button ion-item class="lsMenu">
+            Kundenrader
+          </button>
 
 
-    <ion-item-divider class="lsMenuDivider">
-      <ion-icon name="settings"></ion-icon>
-      Einstellungen
-    </ion-item-divider>
-    <div>
-      <button ion-item class="lsMenu">
-        Server-Einstellungen
-      </button>
-    </div>
-    <div>
-      <button ion-item class="lsMenu">
-        Programminformation
-      </button>
-    </div>
-    <div>
-      <button ion-item class="lsMenu">
-        Sonstige Einstellungen
-      </button>
-    </div>
-            
 
-  </ion-list>
+          <ion-item-divider class="lsMenuDivider">
+            <ion-icon name="car"></ion-icon>
+            Fahrzeuge
+          </ion-item-divider>
+          <div>
+            <button ion-item class="lsMenu" (click)="gotoCarSearch()">
+              Fahrzeugsuche
+            </button>
+          </div>
+
+
+          <ion-item-divider class="lsMenuDivider">
+            <ion-icon name="settings"></ion-icon>
+            Einstellungen
+          </ion-item-divider>
+          <div>
+            <button ion-item class="lsMenu">
+              Server-Einstellungen
+            </button>
+          </div>
+          <div>
+            <button ion-item class="lsMenu">
+              Programminformation
+            </button>
+          </div>
+          <div>
+            <button ion-item class="lsMenu">
+              Sonstige Einstellungen
+            </button>
+          </div>
+
+
+        </ion-list>
+
+      </ion-col>
+
+      <ion-col col12 col-sm>
+        
+        <ion-card>
+          <img src="/assets/imgs/loco-soft-logo.jpg" />
+          <!-- <ion-card-content>
+            <ion-card-title>
+              Firmenlogo
+            </ion-card-title>
+            <p>
+              Beschreibungstext kommt hier hin.  
+            </p>
+          </ion-card-content> -->
+        </ion-card>
+
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
 </ion-content>
