@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-navbar>
+
+    <ion-title>
+      Contacts
+    </ion-title>
+
+    <ion-buttons end>
+      <!-- <button ion-button icon-only (click)="getAllContacts()">
+        <ion-icon name="refresh"></ion-icon>
+      </button> -->
+      <button ion-button icon-only (click)="showMap()">
+        <ion-icon name="globe"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="destroy()">
+        <ion-icon name="trash"></ion-icon>
+      </button>
+      <!-- <button ion-button icon-only (click)="import()">
+        <ion-icon name="code-download"></ion-icon>
+      </button> -->
+      <button ion-button icon-only (click)="sync()">
+        <ion-icon name="sync"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="add()">
+        <ion-icon name="person-add"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
+
+  <ion-navbar>
+    <ion-input style="background-color:white;" placeholder="Search ..." [(ngModel)]="query">
+    </ion-input>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <ion-list>
+
+    <ion-item-sliding *ngFor="let contact of contacts | search:'name,address':query">
+      <button ion-item  (click)="gotoContactDetails(contact)">
+        <h1>{{contact.name}}</h1>
+        <h2>{{contact.phone}}</h2>
+        <h3>{{contact.address}}</h3>
+      </button>
+      <ion-item-options side="right">
+          <button ion-button expandable (click)="showContactMap(contact)">
+            <ion-icon name="globe"></ion-icon>
+          </button>
+          <button ion-button expandable (click)="remove(contact)">
+            <ion-icon name="trash"></ion-icon>
+          </button>
+        </ion-item-options>      
+    </ion-item-sliding>
+
+  </ion-list>
+</ion-content>

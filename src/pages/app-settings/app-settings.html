@@ -20,14 +20,14 @@
       <ion-icon name="key"></ion-icon>
       Sperrbildschirm
     </ion-item-divider>
-    
-    <button ion-item class="lsMenu">
+
+    <button ion-item class="lsMenu" (click)="screenTimout()">
       Bildschirm-Timeout
       <div class="lsMenuValue">
         30 Sekunden
       </div>
     </button>
-    <button ion-item class="lsMenu">
+    <button ion-item class="lsMenu" (click)="unlockMethode()">
       Entsperrmethode
       <div class="lsMenuValue">
           Loco-Soft Password

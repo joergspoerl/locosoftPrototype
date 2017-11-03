@@ -22,7 +22,7 @@
             <ion-icon name="person"></ion-icon>
             Kunden
           </ion-item-divider>
-          <button ion-item class="lsMenu">
+          <button ion-item class="lsMenu" (click)="gotoContact()">
             Kundensuche
             <button ion-button clear item-end>
               <ion-icon *ngIf="!showLastSearch" name="arrow-down" (click)="showLastSearch=!showLastSearch"></ion-icon>
@@ -86,7 +86,7 @@
       <ion-col col12 col-sm>
         
         <ion-card>
-          <img src="/assets/imgs/loco-soft-logo.jpg" />
+          <img src="assets/imgs/loco-soft-logo.jpg" />
           <!-- <ion-card-content>
             <ion-card-title>
               Firmenlogo
