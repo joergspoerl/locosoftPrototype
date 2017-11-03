@@ -3,16 +3,77 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-title>
+      <ion-icon name="home"></ion-icon>
+      Autohaus Mustermann
+    </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <h3>Ionic Menu Starter</h3>
+  <!-- <button ion-button secondary menuToggle>Toggle Menu</button> -->
+  <ion-list>
 
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
+    <ion-item-divider class="lsMenuDivider">
+      <ion-icon name="person"></ion-icon>
+      Kunden
+    </ion-item-divider>
+    <button ion-item  class="lsMenu">
+      Kundensuche
+      <button ion-button clear item-end>
+        <ion-icon *ngIf="!showLastSearch" name="arrow-down" (click)="showLastSearch=!showLastSearch"></ion-icon>
+        <ion-icon *ngIf="showLastSearch" name="arrow-up" (click)="showLastSearch=!showLastSearch"></ion-icon>
+      </button>
+    </button>
+    <div *ngIf="showLastSearch">
+        <button ion-item class="lsSubMenu">
+          Herbert, Florian
+        </button>
+        <button ion-item class="lsSubMenu">
+          Förster, Laura
+        </button>
+        <button ion-item class="lsSubMenu">
+          Karger, Frank
+        </button>
+    </div>
+  
+    <button ion-item  class="lsMenu">
+      Kundenrader
+    </button>
 
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+
+
+    <ion-item-divider class="lsMenuDivider">
+      <ion-icon name="car"></ion-icon>
+      Fahrzeuge
+    </ion-item-divider>
+    <div>
+      <button ion-item class="lsMenu">
+        Fahrzeugsuche
+      </button>
+    </div>
+
+
+    <ion-item-divider class="lsMenuDivider">
+      <ion-icon name="settings"></ion-icon>
+      Einstellungen
+    </ion-item-divider>
+    <div>
+      <button ion-item class="lsMenu">
+        Server-Einstellungen
+      </button>
+    </div>
+    <div>
+      <button ion-item class="lsMenu">
+        Programminformation
+      </button>
+    </div>
+    <div>
+      <button ion-item class="lsMenu">
+        Sonstige Einstellungen
+      </button>
+    </div>
+            
+
+  </ion-list>
 </ion-content>

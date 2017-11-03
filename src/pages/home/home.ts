@@ -7,6 +7,8 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
+  showLastSearch: boolean = false;
+
   constructor(public navCtrl: NavController) {
 
   }
