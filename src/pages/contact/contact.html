@@ -10,8 +10,8 @@
         <ion-icon name="refresh"></ion-icon>
       </button> -->
       
-      <button ion-button icon-only (click)="showMap()">
-        <ion-icon name="globe"></ion-icon>
+      <button ion-button (click)="showMap()">
+        <ion-icon name="globe"></ion-icon>&nbsp;Karte
       </button>
 
       <!-- <button ion-button icon-only (click)="destroy()">
@@ -23,8 +23,8 @@
       <!-- <button ion-button icon-only (click)="sync()">
         <ion-icon name="sync"></ion-icon>
       </button> -->
-      <button ion-button icon-only (click)="add()">
-        <ion-icon name="person-add"></ion-icon>
+      <button ion-button (click)="add()">
+        <ion-icon name="person-add"></ion-icon>&nbsp;Neu
       </button>
     </ion-buttons>
 
@@ -49,10 +49,10 @@
       </button>
       <ion-item-options side="right">
           <button ion-button expandable (click)="showContactMap(contact)">
-            <ion-icon name="globe"></ion-icon>
+            <ion-icon name="globe"></ion-icon>&nbsp;Karte
           </button>
           <button ion-button expandable (click)="remove(contact)">
-            <ion-icon name="trash"></ion-icon>
+            <ion-icon name="trash"></ion-icon>&nbsp;Löschen
           </button>
         </ion-item-options>      
     </ion-item-sliding>

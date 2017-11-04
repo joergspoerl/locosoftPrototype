@@ -39,12 +39,14 @@ export class ContactDetailsPage {
 
   save(contact:Contact) {
     console.log("save: ", contact);
-    this.contactProvider.save(contact).then(
-      ok => {
-        this.navCtrl.pop()
-      },
-      error => {}
-    );
+    if (contact.name && contact.name != '') {
+      this.contactProvider.save(contact).then(
+        ok => {
+          this.navCtrl.pop()
+        },
+        error => {}
+      );
+      }
   }
 
 
