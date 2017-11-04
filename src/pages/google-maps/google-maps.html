@@ -16,3 +16,10 @@
 <ion-content>
     <div #map id="map"></div>
 </ion-content>
+
+
+<ion-footer *ngIf="showFooter != null">
+    <ion-toolbar>
+      <ion-title><ion-spinner name="bubbles"></ion-spinner>{{showFooter}}</ion-title>
+    </ion-toolbar>
+</ion-footer>

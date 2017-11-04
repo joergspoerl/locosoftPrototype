@@ -23,6 +23,9 @@ declare var GeolocationMarker;
 })
 export class GoogleMapsPage {
 
+
+  showFooter: string = null;
+
   @ViewChild('map') mapElement: ElementRef;
   map: any;
 
@@ -58,12 +61,12 @@ export class GoogleMapsPage {
   }
 
   getCurrentPosition() {
-    this.loadingProvider.show("Get your position, please wait...");
+    this.showFooter = "Get your position, please wait...";
     console.log("getCurrentPosition()");
     this.geolocation.getCurrentPosition()
 
       .then((position) => {
-        this.loadingProvider.hide();
+        this.showFooter = null;
         // use current geoposition
         this.currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         console.log("use current geoposition", this.currentPosition)
@@ -76,7 +79,7 @@ export class GoogleMapsPage {
       })
 
       .catch((error) => {
-        this.loadingProvider.hide();
+        this.showFooter = null;
         // default position, if no geolocation
         this.currentPosition = new google.maps.LatLng(51.0504088, 13.7372621); // dresden
         console.log("default position, if no geolocation", this.currentPosition)
