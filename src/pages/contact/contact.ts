@@ -25,18 +25,18 @@ export class ContactPage {
   }
 
   ionViewDidLoad() {
-    this.getAllContactsStatic()
   }
 
+  ionViewDidEnter() {
+    this.getAllContacts()    
+  }
 
-
-
-  getAllContactsStatic() {
+  getAllContacts() {
     this.loadingProvider.show("Loading Contacts, please wait ...")
-    this.contactProvider.getAllContactsStatic().subscribe(
+    this.contactProvider.getAllContacts().then(
 
       result => {
-        this.contacts = result.json();
+        this.contacts = result.docs;
         console.log("this.contacts", this.contacts)
         this.loadingProvider.hide();
       },
@@ -47,11 +47,6 @@ export class ContactPage {
       }
     )
   }
-
-  ionViewDidEnter() {
-  }
-
-
 
   gotoContactDetails(contact) {
     this.navCtrl.push(ContactDetailsPage, { 'contact' : contact });
@@ -73,17 +68,21 @@ export class ContactPage {
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray' : [{ lat: contact.latitude, lng: contact.longitude}]});    
   }
 
-  destroy() {
-  }
-
 
   add() {
     console.log("add")
     this.navCtrl.push(ContactDetailsPage, { 'contact' : new Contact() });
   }
 
-  remove(contact) {
-    
+  remove(contact:Contact) {
+    this.contactProvider.remove(contact).then(
+      ok => {
+        this.getAllContacts();
+      },
+      er => {
+        console.log("Error: ", er);
+      }
+    );   
   }
 
 

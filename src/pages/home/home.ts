@@ -35,12 +35,14 @@ export class HomePage {
 
     this.loadingProvider.show("Loading, please wait ...")
     let contact;
-    this.contactProvider.getAllContactsStatic().subscribe (
+    this.contactProvider.getAllContacts().then (
       data => {
         this.loadingProvider.hide();
         var markers = [];
-        for (let entry of data.json()) {
-          markers.push({ lat: entry.latitude, lng: entry.longitude})      
+        for (let entry of data.docs) {
+          var t = entry as Contact;
+          console.log("t",t)
+          markers.push({ lat: t.latitude, lng: t.longitude})      
         }
         console.log("markers", markers)
         this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
