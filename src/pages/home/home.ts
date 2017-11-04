@@ -13,7 +13,7 @@ import { ContactProvider, Contact } from '../../providers/contact/contact';
 })
 export class HomePage {
 
-  showLastSearch: boolean = false;
+  showLastCustomerSearch: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -23,6 +23,10 @@ export class HomePage {
 
   }
 
+  showLastCustomerSearchClick ($event) {
+    $event.stopPropagation(); //THIS DOES THE MAGIC
+    this.showLastCustomerSearch = !this.showLastCustomerSearch
+  }
   gotoCarSearch () {
     this.navCtrl.push(CarSearchPage);
   }

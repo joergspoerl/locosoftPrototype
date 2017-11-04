@@ -24,12 +24,12 @@
           </ion-item-divider>
           <button ion-item class="lsMenu" (click)="gotoContact()">
             Kundensuche
-            <button ion-button clear item-end>
-              <ion-icon *ngIf="!showLastSearch" name="arrow-down" (click)="showLastSearch=!showLastSearch"></ion-icon>
-              <ion-icon *ngIf="showLastSearch" name="arrow-up" (click)="showLastSearch=!showLastSearch"></ion-icon>
+            <button ion-button clear item-end  (click)="showLastCustomerSearchClick($event)">
+              <ion-icon *ngIf="!showLastCustomerSearch" name="arrow-down"></ion-icon>
+              <ion-icon *ngIf="showLastCustomerSearch" name="arrow-up"></ion-icon>
             </button>
           </button>
-          <div *ngIf="showLastSearch">
+          <div *ngIf="showLastCustomerSearch">
             <button ion-item class="lsSubMenu">
               Herbert, Florian
             </button>
