@@ -23,6 +23,10 @@ import { SearchPipe } from '../pipe/searchPipe'
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { LoggingProvider } from '../providers/logging/logging';
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
   declarations: [
@@ -40,7 +44,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpModule,
-    ComponentsModule
+    ComponentsModule,
+    BrowserAnimationsModule,
+    ToastModule.forRoot(),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -59,7 +65,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
     LoadingProvider,
-    Geolocation
+    Geolocation,
+    LoggingProvider
   ]
 })
 export class AppModule {}

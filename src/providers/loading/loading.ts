@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map';
 
 import { LoadingController } from 'ionic-angular';
 import { Loading } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 
 /*
@@ -19,26 +20,40 @@ export class LoadingProvider {
 
   constructor(
     public http: Http,
-    public loadingCtrl: LoadingController
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController
   ) {
     console.log('Hello LoadingProvider Provider');
   }
 
   show(message:string) {
     console.log("Show");
+//    this.hide() // if a other loader is shown.
 
-    this.loader = this.loadingCtrl.create({
-      content: message,
-//      duration: 3000
+    // var loader = this.loadingCtrl.create({
+    //   content: message,
+    //   duration: 2000
+    // });
+    // loader.present();
+
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: 'top'
     });
-    this.loader.present();
+
+    toast.present();
 
   }
 
   hide() {
     console.log("hide");
 
-    this.loader.dismiss();
+    // try {
+    //   this.loader.dismiss();
+    // }
+    // catch (exception) {}
+
     
   }
 }

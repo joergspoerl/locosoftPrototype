@@ -55,7 +55,9 @@ export class ContactPage {
   showMap() {
     var markers = [];
     for (let entry of this.contacts) {
-      markers.push({ lat: entry.latitude, lng: entry.longitude})      
+      markers.push({ 
+        lat: Number.parseFloat(entry.latitude), 
+        lng: Number.parseFloat(entry.longitude)})      
     }
     // for (var i = 1; i< 10; i++) {
     //   markers.push({ lat: this.contacts[i].latitude, lng: this.contacts[i].longitude})

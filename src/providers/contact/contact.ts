@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import { LoadingProvider } from '../loading/loading'
 //import PouchDB from 'pouchdb';
 import PouchDB from "pouchdb";
-import find         from 'pouchdb-find';
+import find    from 'pouchdb-find';
 
 import { ToastController } from 'ionic-angular';
 
