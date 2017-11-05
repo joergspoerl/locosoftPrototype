@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 
+import { ComponentsModule } from '../components/components.module'
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -33,12 +34,13 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     ContactPage,
     ContactDetailsPage,
     GoogleMapsPage,
-    SearchPipe
+    SearchPipe,
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    HttpModule
+    HttpModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

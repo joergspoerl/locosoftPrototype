@@ -16,70 +16,8 @@
     <ion-row>
 
       <ion-col col-12 col-sm>
-        <ion-list>
 
-          <ion-item-divider class="lsMenuDivider">
-            <ion-icon name="person"></ion-icon>
-            Kunden
-          </ion-item-divider>
-          <button ion-item class="lsMenu" (click)="gotoContact()">
-            Kundensuche
-            <button ion-button clear item-end  (click)="showLastCustomerSearchClick($event)">
-              <ion-icon *ngIf="!showLastCustomerSearch" name="arrow-down"></ion-icon>
-              <ion-icon *ngIf="showLastCustomerSearch" name="arrow-up"></ion-icon>
-            </button>
-          </button>
-          <div *ngIf="showLastCustomerSearch">
-            <button ion-item class="lsSubMenu">
-              Herbert, Florian
-            </button>
-            <button ion-item class="lsSubMenu">
-              Förster, Laura
-            </button>
-            <button ion-item class="lsSubMenu">
-              Karger, Frank
-            </button>
-          </div>
-
-          <button ion-item class="lsMenu" (click)="gotoCustomerRadar()">
-            Kundenradar
-          </button>
-
-
-
-          <ion-item-divider class="lsMenuDivider">
-            <ion-icon name="car"></ion-icon>
-            Fahrzeuge
-          </ion-item-divider>
-          <div>
-            <button ion-item class="lsMenu" (click)="gotoCarSearch()">
-              Fahrzeugsuche
-            </button>
-          </div>
-
-
-          <ion-item-divider class="lsMenuDivider">
-            <ion-icon name="settings"></ion-icon>
-            Einstellungen
-          </ion-item-divider>
-          <div>
-            <button ion-item class="lsMenu">
-              Server-Einstellungen
-            </button>
-          </div>
-          <div>
-            <button ion-item class="lsMenu">
-              Programminformation
-            </button>
-          </div>
-          <div>
-            <button ion-item class="lsMenu" (click)="gotoAppSettings()">
-              Applikation Einstellungen
-            </button>
-          </div>
-
-
-        </ion-list>
+        <navigation [navCtrl]="navCtrl"></navigation>
 
       </ion-col>
 
