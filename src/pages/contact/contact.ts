@@ -6,6 +6,7 @@ import { GoogleMapsPage } from '../google-maps/google-maps'
 import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 //import { ToastController } from 'ionic-angular';
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgProgress } from 'ngx-progressbar';
 
 
 
@@ -21,6 +22,8 @@ export class ContactPage {
     public navCtrl: NavController,
     public contactProvider: ContactProvider,
     public loadingProvider: ToastMessageProvider,
+    public ngProgress: NgProgress
+    
   ) {
 
         
@@ -34,18 +37,18 @@ export class ContactPage {
   }
 
   getAllContacts() {
-    this.loadingProvider.show("Loading Contacts, please wait ...")
+    this.ngProgress.start();
     this.contactProvider.getAllContacts().then(
 
       result => {
         this.contacts = result.docs;
         console.log("this.contacts", this.contacts)
-        this.loadingProvider.hide();
+        this.ngProgress.done();
       },
 
       error => {
         console.log("error", error)
-        this.loadingProvider.hide();
+        this.ngProgress.done();
       }
     )
   }

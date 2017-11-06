@@ -4,6 +4,8 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 
+import { NgProgress } from 'ngx-progressbar';
+
 /**
  * Generated class for the TestPage page.
  *
@@ -22,6 +24,7 @@ export class TestPage {
     public navParams: NavParams,
     public loadingProvider: ToastMessageProvider,
     public toastr: ToastsManager,
+    public ngProgress: NgProgress
 ) {
   }
 
@@ -50,9 +53,21 @@ export class TestPage {
     this.toastr.custom('<span style="color: red">Message in red.</span>', null, {enableHTML: true});
   }
 
-  showControlled() {
-    
-    this.loadingProvider.show("Test")
-}
+  testLoading() {
+    this.loadingProvider.testLoading("Test")
+  }
+
+  hide() {
+    this.loadingProvider.hide(null)
+  }
+
+  startProgress() {
+    this.ngProgress.start();
+  }
+
+  doneProgress() {
+    this.ngProgress.done();
+  }
+
 
 }

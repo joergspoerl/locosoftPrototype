@@ -4,6 +4,7 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
+import { NgProgress } from 'ngx-progressbar';
 
 import { Geolocation } from '@ionic-native/geolocation';
 declare var google;
@@ -40,7 +41,9 @@ export class GoogleMapsPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     public loadingProvider: ToastMessageProvider,
-    public geolocation: Geolocation) {
+    public geolocation: Geolocation,
+    public ngProgress: NgProgress
+  ) {
 
     //this.latLng = navParams.get('latLng');
     this.latLngArray = navParams.get('latLngArray');
@@ -61,12 +64,15 @@ export class GoogleMapsPage {
   }
 
   getCurrentPosition() {
-    this.showFooter = "Get your position, please wait...";
+    this.ngProgress.start();
+    //this.showFooter = "Get your position, please wait...";
     console.log("getCurrentPosition()");
     this.geolocation.getCurrentPosition()
 
       .then((position) => {
-        this.showFooter = null;
+        this.ngProgress.done();
+        this.loadingProvider.toastr.info('Geolocation detected')
+        //this.showFooter = null;
         // use current geoposition
         this.currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
         console.log("use current geoposition", this.currentPosition)

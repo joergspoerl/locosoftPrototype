@@ -15,6 +15,8 @@ import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 @Injectable()
 export class ToastMessageProvider {
 
+  toasts: Toast[];
+
   constructor(
     public http: Http,
     public toastr: ToastsManager,
@@ -41,7 +43,18 @@ export class ToastMessageProvider {
       });
   }
 
-  hide() {
+  testLoading (message: string):Toast {
+    var spinner = '<ion-spinner></ion-spinner>';
+
+    return this.toastr.setupToast(new Toast('info', 'Hello', null, { dismiss: 'controlled', enableHTML: true }))
+ 
+  }
+
+
+  hide(toast) {
     console.log("hide");
+
+    if (toast)
+      this.toastr.dismissToast(toast)
   }
 }

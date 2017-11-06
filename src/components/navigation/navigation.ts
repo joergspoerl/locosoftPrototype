@@ -9,6 +9,7 @@ import { AppSettingsPage } from '../../pages/app-settings/app-settings'
 import { ContactPage } from '../../pages/contact/contact'
 import { GoogleMapsPage } from '../../pages/google-maps/google-maps'
 import { TestPage } from '../../pages/test/test'
+import { NgProgress } from 'ngx-progressbar';
 
 /**
  * Generated class for the NavigationComponent component.
@@ -29,7 +30,9 @@ export class NavigationComponent {
   
   constructor(
     public loadingProvider: ToastMessageProvider,
-    public contactProvider: ContactProvider
+    public contactProvider: ContactProvider,
+    public ngProgress: NgProgress
+    
   ) {
     console.log('Hello NavigationComponent Component');
     this.text = 'Hello World';
@@ -45,11 +48,11 @@ export class NavigationComponent {
   }
 
   gotoCustomerRadar () {
-    this.loadingProvider.show("Loading, please wait ...")
+    this.ngProgress.start()
     let contact;
     this.contactProvider.getAllContacts().then (
       data => {
-        this.loadingProvider.hide();
+        this.ngProgress.done()
         var markers = [];
         for (let entry of data.docs as any) {
           markers.push({ 
@@ -58,7 +61,8 @@ export class NavigationComponent {
         }
         this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
       },
-      error => this.loadingProvider.hide()
+      error =>     this.ngProgress.done()
+      
     )
 
   }

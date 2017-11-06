@@ -6,6 +6,7 @@ import { ToastMessageProvider } from '../toastMessage/toastMessage'
 //import PouchDB from 'pouchdb';
 import PouchDB from "pouchdb";
 import find    from 'pouchdb-find';
+import { NgProgress } from 'ngx-progressbar';
 
 
 /*
@@ -22,7 +23,9 @@ export class ContactProvider {
 
   constructor(
     public http: Http,
-    public loadingProvider: ToastMessageProvider,
+    public toastMessageProvider: ToastMessageProvider,
+    public ngProgress: NgProgress
+    
     ) {
     console.log('Hello ContactProvider Provider');
 
@@ -32,8 +35,8 @@ export class ContactProvider {
   }
 
   initPouchDB() {
-    this.loadingProvider.show("Init Database !");
-    
+
+    this.ngProgress.start();
 
     this.dbLocal = new PouchDB('contacts');
     console.log("dbLocal", this.dbLocal);
@@ -41,7 +44,7 @@ export class ContactProvider {
     this.dbRemote = new PouchDB('https://contact:contact@jrg.deneb.uberspace.de/couchdb/contacts');
     console.log("dbRemote", this.dbRemote);
 
-    this.loadingProvider.hide();
+    this.ngProgress.done();
     
     this.sync();
   }
@@ -87,42 +90,41 @@ export class ContactProvider {
   // }
 
   sync() {
-    this.loadingProvider.show("Sync Database !");
+    this.ngProgress.start();
     
     return this.dbLocal.sync(this.dbRemote).then(
       ok => {
         console.log("sync", ok)
-        this.loadingProvider.hide();
+        this.ngProgress.done();
       },
       er => {
         console.log("error", er)
-        this.loadingProvider.hide();
+        this.toastMessageProvider.toastr.error(JSON.stringify(er), 'Sync Error')
+        this.ngProgress.done();
       }
     );
   } 
 
 
   createIndexAllContacts() {
-    this.loadingProvider.show("Create db index !");
     
     this.dbLocal.createIndex({
       index: {fields: ['type']}
     }).then(
       ok => {
-        this.loadingProvider.hide();
       },
       error => {
-        this.loadingProvider.hide();
       });
   }
 
   
   save(contact) {
-    this.loadingProvider.show("Save Contact");
+    this.toastMessageProvider.show("Save Contact");
     return this.dbLocal.put(contact)
   }
 
   remove(contact) {
+    this.toastMessageProvider.show("Delete Contact");
     return this.dbLocal.remove(contact)
   }
 

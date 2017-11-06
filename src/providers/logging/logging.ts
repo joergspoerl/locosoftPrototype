@@ -6,8 +6,7 @@ import PouchDB from 'pouchdb';
 import find    from 'pouchdb-find';
 
 import prettyjson from 'prettyjson';
-
-import { ToastMessageProvider } from '../toastMessage/toastMessage'
+import { NgProgress } from 'ngx-progressbar';
 
 /*
   Generated class for the LoggingProvider provider.
@@ -24,7 +23,7 @@ export class LoggingProvider {
   constructor(
 
     public http: Http,
-    public loadingProvider: ToastMessageProvider,
+    public ngProgress: NgProgress
     
   ) {
     console.log('Hello LoggingProvider Provider');
@@ -36,7 +35,7 @@ export class LoggingProvider {
 
 
   initPouchDB() {
-    this.loadingProvider.show("Init Database !");
+    this.ngProgress.start();
     
 
     this.dbLocal = new PouchDB('logging');
@@ -45,18 +44,22 @@ export class LoggingProvider {
     this.dbRemote = new PouchDB('https://contact:contact@jrg.deneb.uberspace.de/couchdb/logging');
     console.log("dbRemote", this.dbRemote);
 
-    this.loadingProvider.hide();
+    this.ngProgress.done();
     
     this.sync();
   }
 
 
   sync() {
+    this.ngProgress.start();
+    
     return this.dbLocal.sync(this.dbRemote).then(
       ok => {
+        this.ngProgress.done();
         console.log("sync", ok)
       },
       er => {
+        this.ngProgress.done();
         console.log("error", er)
       }
     );

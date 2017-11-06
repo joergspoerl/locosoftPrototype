@@ -32,6 +32,8 @@ import { LoggingProvider } from '../providers/logging/logging';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
+import { NgProgressModule } from 'ngx-progressbar';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -52,6 +54,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     ComponentsModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
+    NgProgressModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
