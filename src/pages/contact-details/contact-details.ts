@@ -10,7 +10,7 @@ import { ContactProvider, Contact } from '../../providers/contact/contact';
  * Ionic pages and navigation.
  */
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-contact-details',
   templateUrl: 'contact-details.html',
