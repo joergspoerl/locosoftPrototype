@@ -12,6 +12,7 @@ import { CarSearchPage } from '../pages/car-search/car-search'
 import { AppSettingsPage } from '../pages/app-settings/app-settings'
 import { ContactPage } from '../pages/contact/contact'
 import { ContactDetailsPage } from '../pages/contact-details/contact-details'
+import { TestPage } from '../pages/test/test'
 
 import { GoogleMapsPage } from '../pages/google-maps/google-maps'
 import { Geolocation } from '@ionic-native/geolocation';
@@ -42,6 +43,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     ContactDetailsPage,
     GoogleMapsPage,
     SearchPipe,
+    TestPage,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +63,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     ContactPage,
     ContactDetailsPage,
     GoogleMapsPage,
+    TestPage
   ],
   providers: [
     {provide: ToastOptions, useClass: CustomOption},

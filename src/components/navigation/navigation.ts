@@ -8,6 +8,7 @@ import { CarSearchPage } from '../../pages/car-search/car-search'
 import { AppSettingsPage } from '../../pages/app-settings/app-settings'
 import { ContactPage } from '../../pages/contact/contact'
 import { GoogleMapsPage } from '../../pages/google-maps/google-maps'
+import { TestPage } from '../../pages/test/test'
 
 /**
  * Generated class for the NavigationComponent component.
@@ -51,11 +52,14 @@ export class NavigationComponent {
       data => {
         this.loadingProvider.hide();
         var markers = [];
-        for (let entry of data.docs) {
-          var t = entry as Contact;
-          console.log("t",t)
-          markers.push({ lat: t.latitude, lng: t.longitude})      
+        for (let entry of data.docs as any) {
+
+          console.log("ENTRY ", entry)
+          markers.push({ 
+            lat: Number.parseFloat(entry.latitude), 
+            lng: Number.parseFloat(entry.longitude)})      
         }
+            
         console.log("markers", markers)
         this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
       },
@@ -70,6 +74,10 @@ export class NavigationComponent {
 
   gotoContact () {
     this.navCtrl.push(ContactPage);
+  }
+
+  gotoTestPage () {
+    this.navCtrl.push(TestPage);
   }
 
 

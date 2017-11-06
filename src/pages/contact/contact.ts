@@ -61,9 +61,6 @@ export class ContactPage {
         lat: Number.parseFloat(entry.latitude), 
         lng: Number.parseFloat(entry.longitude)})      
     }
-    // for (var i = 1; i< 10; i++) {
-    //   markers.push({ lat: this.contacts[i].latitude, lng: this.contacts[i].longitude})
-    // }
     console.log("markers", markers)
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
   }
