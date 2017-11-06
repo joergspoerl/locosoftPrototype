@@ -45,7 +45,6 @@ export class NavigationComponent {
   }
 
   gotoCustomerRadar () {
-    console.log("navCtrl::: ", this.navCtrl)
     this.loadingProvider.show("Loading, please wait ...")
     let contact;
     this.contactProvider.getAllContacts().then (
@@ -53,14 +52,10 @@ export class NavigationComponent {
         this.loadingProvider.hide();
         var markers = [];
         for (let entry of data.docs as any) {
-
-          console.log("ENTRY ", entry)
           markers.push({ 
             lat: Number.parseFloat(entry.latitude), 
             lng: Number.parseFloat(entry.longitude)})      
         }
-            
-        console.log("markers", markers)
         this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
       },
       error => this.loadingProvider.hide()
