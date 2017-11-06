@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Nav, Platform } from 'ionic-angular';
-import { LoadingProvider } from '../../providers/loading/loading'
+import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 
 import { CarSearchPage } from '../../pages/car-search/car-search'
@@ -27,7 +27,7 @@ export class NavigationComponent {
   showLastCustomerSearch: boolean = false;
   
   constructor(
-    public loadingProvider: LoadingProvider,
+    public loadingProvider: ToastMessageProvider,
     public contactProvider: ContactProvider
   ) {
     console.log('Hello NavigationComponent Component');

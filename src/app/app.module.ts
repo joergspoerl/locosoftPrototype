@@ -17,7 +17,7 @@ import { GoogleMapsPage } from '../pages/google-maps/google-maps'
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { ContactProvider } from '../providers/contact/contact'
-import { LoadingProvider } from '../providers/loading/loading'
+import { ToastMessageProvider } from '../providers/toastMessage/toastMessage'
 
 import { SearchPipe } from '../pipe/searchPipe'
 
@@ -64,7 +64,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
-    LoadingProvider,
+    ToastMessageProvider,
     Geolocation,
     LoggingProvider
   ]

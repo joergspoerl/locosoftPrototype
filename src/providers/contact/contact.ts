@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
-import { LoadingProvider } from '../loading/loading'
+import { ToastMessageProvider } from '../toastMessage/toastMessage'
 //import PouchDB from 'pouchdb';
 import PouchDB from "pouchdb";
 import find    from 'pouchdb-find';
@@ -23,7 +23,7 @@ export class ContactProvider {
 
   constructor(
     public http: Http,
-    public loadingProvider: LoadingProvider,
+    public loadingProvider: ToastMessageProvider,
     ) {
     console.log('Hello ContactProvider Provider');
 

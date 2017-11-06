@@ -3,7 +3,7 @@ import { ViewChild, ElementRef } from '@angular/core';
 
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { LoadingProvider } from '../../providers/loading/loading'
+import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 
 import { Geolocation } from '@ionic-native/geolocation';
 declare var google;
@@ -39,7 +39,7 @@ export class GoogleMapsPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    public loadingProvider: LoadingProvider,
+    public loadingProvider: ToastMessageProvider,
     public geolocation: Geolocation) {
 
     //this.latLng = navParams.get('latLng');

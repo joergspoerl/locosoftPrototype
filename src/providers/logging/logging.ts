@@ -7,7 +7,7 @@ import find    from 'pouchdb-find';
 
 import prettyjson from 'prettyjson';
 
-import { LoadingProvider } from '../loading/loading'
+import { ToastMessageProvider } from '../toastMessage/toastMessage'
 
 /*
   Generated class for the LoggingProvider provider.
@@ -24,7 +24,7 @@ export class LoggingProvider {
   constructor(
 
     public http: Http,
-    public loadingProvider: LoadingProvider,
+    public loadingProvider: ToastMessageProvider,
     
   ) {
     console.log('Hello LoggingProvider Provider');

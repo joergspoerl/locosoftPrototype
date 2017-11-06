@@ -3,7 +3,7 @@ import { NavController } from 'ionic-angular';
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactDetailsPage } from '../contact-details/contact-details'
 import { GoogleMapsPage } from '../google-maps/google-maps'
-import { LoadingProvider } from '../../providers/loading/loading'
+import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 import { ToastController } from 'ionic-angular';
 
 @Component({
@@ -17,7 +17,7 @@ export class ContactPage {
   constructor(
     public navCtrl: NavController,
     public contactProvider: ContactProvider,
-    public loadingProvider: LoadingProvider,
+    public loadingProvider: ToastMessageProvider,
     public toastCtrl: ToastController
   ) {
 
