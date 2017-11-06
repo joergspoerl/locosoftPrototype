@@ -24,12 +24,7 @@ export class HomePage {
     vcr: ViewContainerRef
   ){
 
-    this.loadingProvider.setRootViewContainerRef(vcr);
-
     loggingProvider.log("HomePage Contructor !");
-    //this.toastr.success('You are awesome!', 'Success!');
-   
-    
   }
 
   showSuccess() {

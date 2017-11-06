@@ -17,7 +17,10 @@ import { GoogleMapsPage } from '../pages/google-maps/google-maps'
 import { Geolocation } from '@ionic-native/geolocation';
 
 import { ContactProvider } from '../providers/contact/contact'
+
 import { ToastMessageProvider } from '../providers/toastMessage/toastMessage'
+import { CustomOption } from '../providers/toastMessage/custom-options'
+import { ToastOptions } from 'ng2-toastr'
 
 import { SearchPipe } from '../pipe/searchPipe'
 
@@ -60,11 +63,12 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
     GoogleMapsPage,
   ],
   providers: [
+    {provide: ToastOptions, useClass: CustomOption},
+    ToastMessageProvider,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
-    ToastMessageProvider,
     Geolocation,
     LoggingProvider
   ]

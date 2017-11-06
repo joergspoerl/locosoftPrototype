@@ -7,7 +7,6 @@ import { ToastMessageProvider } from '../toastMessage/toastMessage'
 import PouchDB from "pouchdb";
 import find    from 'pouchdb-find';
 
-import { ToastController } from 'ionic-angular';
 
 /*
   Generated class for the ContactProvider provider.
@@ -119,6 +118,7 @@ export class ContactProvider {
 
   
   save(contact) {
+    this.loadingProvider.show("Save Contact");
     return this.dbLocal.put(contact)
   }
 

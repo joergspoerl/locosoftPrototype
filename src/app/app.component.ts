@@ -16,6 +16,8 @@ export class MyApp {
 
   rootPage: any = HomePage;
 
+  public viewContainerRef: ViewContainerRef;
+
   pages: Array<{title: string, component: any}>;
 
   constructor(
@@ -23,10 +25,11 @@ export class MyApp {
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
     public loadingProvider: ToastMessageProvider,
-    public vcr: ViewContainerRef,
+    vcr: ViewContainerRef,
   ) {
 
-    this.loadingProvider.setRootViewContainerRef(vcr);
+    this.viewContainerRef = vcr;
+    this.loadingProvider.setRootViewContainerRef(this.viewContainerRef);
 
     this.initializeApp();
 

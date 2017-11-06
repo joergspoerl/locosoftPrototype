@@ -21,18 +21,24 @@ export class ToastMessageProvider {
   ) {
     console.log('Hello LoadingProvider Provider');
     //this.setRootViewContainerRef(vcr)
-    
+
   }
 
   setRootViewContainerRef(vcr: ViewContainerRef) {
     this.toastr.setRootViewContainerRef(vcr);
   }
 
-  show(message:string) {
+  show(message: string) {
     console.log("Show");
 
-    this.toastr.info(message);
+    //    this.toastr.info(message, null, {toastLife: 1000, });
 
+    this.toastr.success(message, 'Success!', { dismiss: 'controlled' })
+      .then((toast: Toast) => {
+        setTimeout(() => {
+          this.toastr.dismissToast(toast);
+        }, 10000);
+      });
   }
 
   hide() {

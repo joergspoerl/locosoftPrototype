@@ -4,7 +4,10 @@ import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactDetailsPage } from '../contact-details/contact-details'
 import { GoogleMapsPage } from '../google-maps/google-maps'
 import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
-import { ToastController } from 'ionic-angular';
+//import { ToastController } from 'ionic-angular';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+
+
 
 @Component({
   selector: 'page-contact',
@@ -18,7 +21,6 @@ export class ContactPage {
     public navCtrl: NavController,
     public contactProvider: ContactProvider,
     public loadingProvider: ToastMessageProvider,
-    public toastCtrl: ToastController
   ) {
 
         
