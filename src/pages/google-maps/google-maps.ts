@@ -71,7 +71,7 @@ export class GoogleMapsPage {
 
       .then((position) => {
         this.ngProgress.done();
-        this.loadingProvider.toastr.info('Geolocation detected')
+        //this.loadingProvider.toastr.info('Geolocation detected')
         //this.showFooter = null;
         // use current geoposition
         this.currentPosition = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);

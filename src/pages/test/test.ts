@@ -54,11 +54,11 @@ export class TestPage {
   }
 
   testLoading() {
-    this.loadingProvider.testLoading("Test")
+//    this.loadingProvider.testLoading("Test")
   }
 
   hide() {
-    this.loadingProvider.hide(null)
+//    this.loadingProvider.hide(null)
   }
 
   startProgress() {

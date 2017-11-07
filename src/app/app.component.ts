@@ -6,7 +6,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 
-import { ToastMessageProvider } from '../providers/toastMessage/toastMessage'
+import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -24,14 +25,11 @@ export class MyApp {
     public platform: Platform, 
     public statusBar: StatusBar, 
     public splashScreen: SplashScreen,
-    public loadingProvider: ToastMessageProvider,
-    vcr: ViewContainerRef,
-  ) {
+    public toastr: ToastsManager, 
+    vRef: ViewContainerRef ) {
 
-    this.viewContainerRef = vcr;
-    this.loadingProvider.setRootViewContainerRef(this.viewContainerRef);
 
-    this.initializeApp();
+    this.initializeApp(vRef);
 
     // used for an example of ngFor and navigation
     this.pages = [
@@ -41,10 +39,11 @@ export class MyApp {
 
   }
 
-  initializeApp() {
+  initializeApp(vRef) {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
+      this.toastr.setRootViewContainerRef(vRef);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });

@@ -99,7 +99,7 @@ export class ContactProvider {
       },
       er => {
         console.log("error", er)
-        this.toastMessageProvider.toastr.error(JSON.stringify(er), 'Sync Error')
+        //this.toastMessageProvider.toastr.error(JSON.stringify(er), 'Sync Error')
         this.ngProgress.done();
       }
     );

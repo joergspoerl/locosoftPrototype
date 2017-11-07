@@ -4,5 +4,6 @@ export class CustomOption extends ToastOptions {
   animate = 'flyRight'; // you can override any options available
   newestOnTop = false;
   showCloseButton = true;
+  toastLife = 15000;
   positionClass = 'toast-bottom-full-width';
 }
