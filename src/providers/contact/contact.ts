@@ -132,7 +132,34 @@ export class ContactProvider {
     return  this.dbLocal.destroy()    
   }
 
-  
+  randomizePicture() {
+    this.ngProgress.start();
+    this.getAllContacts().then(
+
+      result => {
+        
+        this.ngProgress.done();
+
+        result.docs.forEach( item => {
+          var contact = item as Contact;
+          
+          contact.picture = new Contact().randomPictureUrl();
+
+          this.save(contact);
+
+          console.log("item: ", item as Contact);
+        })
+
+        //this.startLiveSync();
+      },
+
+      error => {
+        console.log("error", error)
+        this.ngProgress.done();
+      }
+    )
+  }
+
 
 
 }
@@ -147,7 +174,7 @@ export class Contact {
       "guid"= ""
       "isActive"= true
       "balance"= "0"
-      "picture"= "http://placehold.it/32x32"
+      "picture"= this.randomPictureUrl()
       "age"= 0
       "eyeColor"= ""
       "name"= ""
@@ -164,5 +191,9 @@ export class Contact {
       "friends"= []
       "greeting"= ""
       "favoriteFruit"= ""
+
+      randomPictureUrl () {
+        return "https://randomuser.me/api/portraits/" + (Math.random() >= 0.5 ? 'men' : 'women') +"/" + Math.floor(Math.random() * (100)) + ".jpg"
+      }
 
 }

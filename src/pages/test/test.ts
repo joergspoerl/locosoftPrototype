@@ -76,35 +76,10 @@ export class TestPage {
     this.ngProgress.done();
   }
 
-
-  getAllContacts() {
-    this.ngProgress.start();
-    this.contactProvider.getAllContacts().then(
-
-      result => {
-        this.contacts = result.docs;
-        console.log("this.contacts", this.contacts)
-        this.ngProgress.done();
-
-        result.docs.forEach( item => {
-          var contact = item as Contact;
-          var gender = Math.random() >= 0.5 ? 'men' : 'women';
-          contact.picture = "https://randomuser.me/api/portraits/" + gender +"/" + Math.floor(Math.random() * (100)) + ".jpg"
-
-          this.contactProvider.save(contact);
-
-          console.log("item: ", item as Contact);
-        })
-
-        //this.startLiveSync();
-      },
-
-      error => {
-        console.log("error", error)
-        this.ngProgress.done();
-      }
-    )
+  randomizePicture () {
+    this.contactProvider.randomizePicture();
   }
+
 
 
 }
