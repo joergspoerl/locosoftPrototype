@@ -51,4 +51,17 @@
           randomizePicture (from all Contacts)
       </button>
 
+      <button ion-button (click)="createRandomUsers()">
+          createRandomUsers
+      </button>
+
+      <button ion-button (click)="deleteRandomUsers()">
+          deleteRandomUsers 
+      </button>
+
+      <ion-item>
+          <ion-label stacked>Count</ion-label>
+          <ion-input [(ngModel)]="count" name="count"></ion-input>
+        </ion-item>
+  
 </ion-content>

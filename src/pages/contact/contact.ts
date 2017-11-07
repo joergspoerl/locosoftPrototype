@@ -49,8 +49,12 @@ export class ContactPage {
     this.contactProvider.getAllContacts().then(
 
       result => {
-        this.contacts = result.docs;
-        console.log("this.contacts", this.contacts)
+        this.contacts = [];
+        result.rows.forEach( item => {
+          //console.log("item", item.doc)
+          this.contacts.push(item.doc);
+        });
+        //console.log("this.contacts", this.contacts)
         this.ngProgress.done();
 
         //this.startLiveSync();

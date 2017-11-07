@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import { ToastMessageProvider } from '../toastMessage/toastMessage'
 //import PouchDB from 'pouchdb';
 import PouchDB from "pouchdb";
-import find    from 'pouchdb-find';
+import find from 'pouchdb-find';
 import { NgProgress } from 'ngx-progressbar';
 
 
@@ -18,15 +18,15 @@ import { NgProgress } from 'ngx-progressbar';
 @Injectable()
 export class ContactProvider {
 
-  dbLocal:  PouchDB.Database;
+  dbLocal: PouchDB.Database;
   dbRemote: PouchDB.Database;
 
   constructor(
     public http: Http,
     public toastMessageProvider: ToastMessageProvider,
     public ngProgress: NgProgress
-    
-    ) {
+
+  ) {
     console.log('Hello ContactProvider Provider');
 
     // init 
@@ -45,7 +45,7 @@ export class ContactProvider {
     console.log("dbRemote", this.dbRemote);
 
     this.ngProgress.done();
-    
+
     this.sync();
   }
 
@@ -54,11 +54,17 @@ export class ContactProvider {
   // }
 
   getAllContacts() {
-    return this.dbLocal.find({
-      selector: {
-        type: 'contact-example'
-      }
-    })
+
+    return this.dbLocal.allDocs({
+      include_docs: true,
+      attachments: true
+    });
+
+    // return this.dbLocal.find({
+    //   selector: {
+    //     type: 'contact-example'
+    //   }
+    // })
   }
 
   // createExampleContactDB() {
@@ -91,7 +97,7 @@ export class ContactProvider {
 
   sync() {
     this.ngProgress.start();
-    
+
     return this.dbLocal.sync(this.dbRemote).then(
       ok => {
         console.log("sync", ok)
@@ -103,13 +109,13 @@ export class ContactProvider {
         this.ngProgress.done();
       }
     );
-  } 
+  }
 
 
   createIndexAllContacts() {
-    
+
     this.dbLocal.createIndex({
-      index: {fields: ['type']}
+      index: { fields: ['type'] }
     }).then(
       ok => {
       },
@@ -117,7 +123,7 @@ export class ContactProvider {
       });
   }
 
-  
+
   save(contact) {
     this.toastMessageProvider.show("Save Contact");
     return this.dbLocal.put(contact)
@@ -129,7 +135,7 @@ export class ContactProvider {
   }
 
   destroy() {
-    return  this.dbLocal.destroy()    
+    return this.dbLocal.destroy()
   }
 
   randomizePicture() {
@@ -137,17 +143,17 @@ export class ContactProvider {
     this.getAllContacts().then(
 
       result => {
-        
+
         this.ngProgress.done();
 
-        result.docs.forEach( item => {
-          var contact = item as Contact;
-          
+        result.rows.forEach(item => {
+          var contact = item.doc as any;
+
           contact.picture = new Contact().randomPictureUrl();
 
           this.save(contact);
 
-          console.log("item: ", item as Contact);
+          console.log("item: ", item);
         })
 
         //this.startLiveSync();
@@ -162,38 +168,105 @@ export class ContactProvider {
 
 
 
+
+  createRandomUser() {
+    this.http.get('https://randomuser.me/api/').subscribe(
+      result => {
+        console.log("result", result);
+        var newContact = new Contact();
+        var randomUser = result.json().results[0];
+        console.log("randomUser", randomUser)
+        newContact.name = randomUser.name.last;
+        newContact.address = randomUser.location.street;
+        newContact.phone = randomUser.phone;
+        newContact.type = 'contact-generated';
+
+        this.save(newContact);
+      }
+    )
+  }
+
+
+  createRandomUsers(count) {
+
+    this.ngProgress.start();
+
+    let counter = 0;
+
+    let interval = setInterval(() => {
+      this.createRandomUser();
+      counter++;
+      if (counter >= count) {
+        clearInterval(interval);
+        this.ngProgress.done();
+      }
+    }, 100)
+
+  }
+
+
+  deleteRandomUsers(count) {
+    var counter = 0;
+    this.ngProgress.start();
+    this.getAllContacts().then(
+
+      result => {
+
+        this.ngProgress.done();
+
+        result.rows.forEach(item => {
+          var contact = item.doc as any;
+
+          counter++
+          if (counter < count) {
+            this.remove(contact);
+          }
+
+          console.log("Delete: ", item);
+        })
+
+      },
+
+      error => {
+        console.log("error", error)
+        this.ngProgress.done();
+      }
+    )
+  }
+
+
 }
 
 
 
 export class Contact {
 
-      "_id" = new Date().toISOString();
-      "type"= "contact-example"
-      "index"= 0
-      "guid"= ""
-      "isActive"= true
-      "balance"= "0"
-      "picture"= this.randomPictureUrl()
-      "age"= 0
-      "eyeColor"= ""
-      "name"= ""
-      "gender"= ""
-      "company"= ""
-      "email"= ""
-      "phone"= ""
-      "address"= ""
-      "about"= ""
-      "registered"= ""
-      "latitude"= 50.327357 -  Math.random() 
-      "longitude"= 13.131642 -  Math.random()
-      "tags"= []
-      "friends"= []
-      "greeting"= ""
-      "favoriteFruit"= ""
+  "_id" = new Date().toISOString();
+  "type" = "contact-example"
+  "index" = 0
+  "guid" = ""
+  "isActive" = true
+  "balance" = "0"
+  "picture" = this.randomPictureUrl()
+  "age" = 0
+  "eyeColor" = ""
+  "name" = ""
+  "gender" = ""
+  "company" = ""
+  "email" = ""
+  "phone" = ""
+  "address" = ""
+  "about" = ""
+  "registered" = ""
+  "latitude" = 50.327357 - Math.random()
+  "longitude" = 13.131642 - Math.random()
+  "tags" = []
+  "friends" = []
+  "greeting" = ""
+  "favoriteFruit" = ""
 
-      randomPictureUrl () {
-        return "https://randomuser.me/api/portraits/" + (Math.random() >= 0.5 ? 'men' : 'women') +"/" + Math.floor(Math.random() * (100)) + ".jpg"
-      }
+  randomPictureUrl() {
+    return "https://randomuser.me/api/portraits/" + (Math.random() >= 0.5 ? 'men' : 'women') + "/" + Math.floor(Math.random() * (100)) + ".jpg"
+  }
 
 }

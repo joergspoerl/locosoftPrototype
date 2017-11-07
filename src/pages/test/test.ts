@@ -22,7 +22,7 @@ import { ContactProvider, Contact } from '../../providers/contact/contact';
 })
 export class TestPage {
 
-  contacts: any;
+  count:number = 100;
 
   constructor(
     public navCtrl: NavController, 
@@ -80,6 +80,11 @@ export class TestPage {
     this.contactProvider.randomizePicture();
   }
 
+  createRandomUsers() {
+    this.contactProvider.createRandomUsers(this.count);
+  }
 
-
+  deleteRandomUsers() {
+    this.contactProvider.deleteRandomUsers(this.count);
+  }
 }

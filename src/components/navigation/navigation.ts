@@ -52,7 +52,7 @@ export class NavigationComponent {
       data => {
         this.ngProgress.done()
         var markers = [];
-        for (let entry of data.docs as any) {
+        for (let entry of data.rows as any) {
           markers.push({ 
             lat: Number.parseFloat(entry.latitude), 
             lng: Number.parseFloat(entry.longitude)})      
