@@ -43,6 +43,11 @@
 
     <ion-item-sliding *ngFor="let contact of contacts | search:'name,address':query">
       <button ion-item  (click)="gotoContactDetails(contact)">
+
+        <ion-avatar item-start>
+            <img src="{{contact.picture}}">
+        </ion-avatar>
+        
         <h1>{{contact.name}}</h1>
         <h2>{{contact.phone}}</h2>
         <h3>{{contact.address}}</h3>

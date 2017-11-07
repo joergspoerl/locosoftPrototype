@@ -27,7 +27,14 @@
 <ion-content>
   <form>
     <ion-list>
+      <ion-item>
 
+        
+        <ion-card>
+          <img src="{{contact.picture}}">
+        </ion-card>
+
+      </ion-item>
       <ion-item>
         <ion-label stacked>Name</ion-label>
         <ion-input [(ngModel)]="contact.name" name="name" required></ion-input>
