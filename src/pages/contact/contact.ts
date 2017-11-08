@@ -16,6 +16,8 @@ import { NgProgress } from 'ngx-progressbar';
 export class ContactPage {
 
   contacts: any;
+  contacts_total_rows: number;
+
   syncHandler: any;
   toastSubscription: any;
 
@@ -159,9 +161,10 @@ export class ContactPage {
     let self = this;
 
     setTimeout(() => {
-      this.contactProvider.getContactPager().then(
+      this.contactProvider.getContactPager(self.type).then(
         result => {
           var r = result as any;
+          this.contacts_total_rows = r.total_rows
           for (let contact of r.rows) {
             self.contacts.push(contact.doc)
             //console.log("insert", contact.doc)

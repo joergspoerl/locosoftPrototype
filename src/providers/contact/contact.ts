@@ -73,8 +73,9 @@ export class ContactProvider {
   }
 
   
-  getContactPager () {
+  getContactPager (type: string) {
 
+    this.dbOptions.selector = {type: type}
     return new Promise( (resolve, reject ) => {
 
       this.dbLocal.allDocs(this.dbOptions).then(
