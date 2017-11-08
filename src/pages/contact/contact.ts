@@ -90,11 +90,11 @@ export class ContactPage {
           if (item._id) {
               var contact = item as any;
               console.log('New contact: ', contact.name);
-              self.toastsManager.info(contact.name,'Received new contact',  { dismiss: 'click', showCloseButton: true }).then(
-                toast => {
-                  //self.toastMessageProvider.toastr.dismissToast(toast);
-                }
-              )
+              // self.toastsManager.info(contact.name,'Received new contact',  { dismiss: 'click', showCloseButton: true }).then(
+              //   toast => {
+              //     //self.toastMessageProvider.toastr.dismissToast(toast);
+              //   }
+              // )
 
               self.getTotalRows();
 
