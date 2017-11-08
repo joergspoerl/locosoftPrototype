@@ -33,11 +33,6 @@
   <ion-navbar>
     <ion-input style="background-color:white;" placeholder="Search ..." [(ngModel)]="query">
     </ion-input>
-    <ion-item no-lines secondary>
-      <button ion-button *ngIf="contacts">
-        # {{ contacts.length }}
-      </button>
-    </ion-item>
   </ion-navbar>
 </ion-header>
 
@@ -69,3 +64,13 @@
 
   </ion-list>
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-item no-lines secondary>
+      <button ion-button *ngIf="contacts">
+        # {{ contacts.length }}
+      </button>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>
