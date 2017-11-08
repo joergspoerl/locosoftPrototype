@@ -15,7 +15,7 @@ import { NgProgress } from 'ngx-progressbar';
 })
 export class ContactPage {
 
-  contacts: any;
+  contacts: any[] = [];
   contacts_total_rows: number;
 
   syncHandler: any;
@@ -39,12 +39,14 @@ export class ContactPage {
   }
 
   ionViewDidEnter() {
-    this.getAllContacts();
+    this.getContactPager();
+    this.getTotalRows();
+    //this.getAllContacts();
     this.startLiveSync();    
   }
 
   ionViewDidLeave() {
-    this.getAllContacts();
+    //this.getAllContacts();
     this.stopLiveSync();    
   }
 
@@ -72,7 +74,7 @@ export class ContactPage {
   }
 
   search($event) {
-    this.getAllContacts();
+    this.getContactPager(true);
   }
 
   startLiveSync () {
@@ -93,6 +95,9 @@ export class ContactPage {
                   //self.toastMessageProvider.toastr.dismissToast(toast);
                 }
               )
+
+              self.getTotalRows();
+
               return true; // break
           }
         })
@@ -161,21 +166,36 @@ export class ContactPage {
     let self = this;
 
     setTimeout(() => {
-      this.contactProvider.getContactPager(self.type).then(
-        result => {
-          var r = result as any;
-          this.contacts_total_rows = r.total_rows
-          for (let contact of r.rows) {
-            self.contacts.push(contact.doc)
-            //console.log("insert", contact.doc)
-          }
-      });
+
+      this.getContactPager()
 
       //console.log('Async operation has ended');
       infiniteScroll.complete();
     }, 0);
   }
 
+  getContactPager (reset?:boolean) {
+    if (reset)
+      this.contacts = [];
+    var self = this;
+    this.contactProvider.getContactPager(this.type,reset).then(
+      result => {
+        var r = result as any;
+        for (let contact of r.docs) {
+          self.contacts.push(contact)
+        }
+    });
+  }
+
+
+  getTotalRows() {
+    this.contactProvider.getTotalRows().then(
+      result => {
+        this.contacts_total_rows = result.total_rows;
+      }
+    )
+
+  }
 
 }
 

@@ -51,6 +51,8 @@ export class ContactProvider {
 
     this.ngProgress.done();
 
+    this.createIndex();
+
     this.sync();
   }
 
@@ -72,16 +74,26 @@ export class ContactProvider {
     })
   }
 
+  getTotalRows () {
+    return this.dbLocal.allDocs({
+      limit: 1
+    });
+  }
   
-  getContactPager (type: string) {
+  getContactPager (type: string, reset?: boolean) {
+
+    if (reset) {
+      delete this.dbOptions.startkey;
+      delete this.dbOptions.skip;
+    }
 
     this.dbOptions.selector = {type: type}
     return new Promise( (resolve, reject ) => {
 
-      this.dbLocal.allDocs(this.dbOptions).then(
+      this.dbLocal.find(this.dbOptions).then(
         response => {
-          if (response && response.rows.length > 0) {
-            this.dbOptions.startkey = response.rows[response.rows.length - 1].id;
+          if (response && response.docs.length > 0) {
+            this.dbOptions.startkey = response.docs[response.docs.length - 1]._id;
             this.dbOptions.skip = 1;
             console.log("response", response)
             resolve(response)
@@ -93,13 +105,14 @@ export class ContactProvider {
         }
       ) 
   
-    })
-
-      
-  
-    
+    })    
   }
 
+  createIndex () {
+    this.dbLocal.createIndex ({
+      index: {fields: ['type']}
+    })
+  }
 
   sync() {
     this.ngProgress.start();
@@ -117,17 +130,6 @@ export class ContactProvider {
     );
   }
 
-
-  createIndexAllContacts() {
-
-    this.dbLocal.createIndex({
-      index: { fields: ['type'] }
-    }).then(
-      ok => {
-      },
-      error => {
-      });
-  }
 
 
   save(contact) {

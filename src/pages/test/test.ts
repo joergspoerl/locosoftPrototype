@@ -88,8 +88,7 @@ export class TestPage {
     this.contactProvider.deleteRandomUsers(this.count);
   }
 
-
   getContactPager() {
-    this.contactProvider.getContactPager();
+    this.contactProvider.getContactPager('contact-examples', true);
   }
 }
