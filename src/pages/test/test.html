@@ -6,62 +6,90 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>test</ion-title>
-  </ion-navbar>
+    <ion-navbar>
+        <ion-title>test</ion-title>
+    </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-    <button ion-button (click)="showSuccess()">
-        Success
-      </button>
-      
-      <button ion-button (click)="showError()">
-        Error
-      </button>
-      <button ion-button (click)="showWarning()">
-        Warning
-      </button>
-      <button ion-button (click)="showInfo()">
-        Info
-      </button>
-      <button ion-button (click)="showCustom()">
-        Custom
-      </button>
 
-      <button ion-button (click)="testLoading()">
-          testLoading
-      </button>
+    <ion-card>
+        <ion-card-header>
+            Toast Messages
+        </ion-card-header>
+        <ion-card-content>
+            <button ion-button block (click)="showSuccess()">
+                Success
+            </button>
 
-      <button ion-button (click)="hide()">
-          hide
-      </button>
+            <button ion-button block (click)="showError()">
+                Error
+            </button>
+            <button ion-button block (click)="showWarning()">
+                Warning
+            </button>
+            <button ion-button block (click)="showInfo()">
+                Info
+            </button>
+            <button ion-button block (click)="showCustom()">
+                Custom
+            </button>
+        </ion-card-content>
+    </ion-card>
 
-      <button ion-button (click)="startProgress()">
-          Start
-      </button>
 
-      <button ion-button (click)="doneProgress()">
-          Done
-      </button>
+    <ion-card>
+        <ion-card-header>
+            NgProgess
+        </ion-card-header>
+        <ion-card-content>
+            <button ion-button block (click)="testLoading()">
+                testLoading
+            </button>
 
-      <button ion-button (click)="randomizePicture()">
-          randomizePicture (from all Contacts)
-      </button>
+            <button ion-button block (click)="hide()">
+                hide
+            </button>
 
-      <button ion-button (click)="createRandomUsers()">
-          createRandomUsers
-      </button>
+            <button ion-button block (click)="startProgress()">
+                Start
+            </button>
 
-      <button ion-button (click)="deleteRandomUsers()">
-          deleteRandomUsers 
-      </button>
+            <button ion-button block (click)="doneProgress()">
+                Done
+            </button>
 
-      <ion-item>
-          <ion-label stacked>Count</ion-label>
-          <ion-input [(ngModel)]="count" name="count"></ion-input>
-        </ion-item>
-  
+            <button ion-button block (click)="randomizePicture()">
+                randomizePicture (all)
+            </button>
+        </ion-card-content>
+    </ion-card>
+
+
+
+    <ion-card>
+        <ion-card-header>
+            Contacts
+        </ion-card-header>
+        <ion-card-content>
+            <button ion-button block (click)="createRandomUsers()">
+                Create
+            </button>
+
+            <ion-item>
+                <ion-label stacked>Count</ion-label>
+                <ion-input [(ngModel)]="count" name="count"></ion-input>
+            </ion-item>
+
+            <button ion-button block (click)="deleteRandomUsers()">
+                Delete
+            </button>
+
+        </ion-card-content>
+    </ion-card>
+
+
+
 </ion-content>
