@@ -164,13 +164,13 @@ export class ContactPage {
           var r = result as any;
           for (let contact of r.rows) {
             self.contacts.push(contact.doc)
-            console.log("insert", contact.doc)
+            //console.log("insert", contact.doc)
           }
       });
 
-      console.log('Async operation has ended');
+      //console.log('Async operation has ended');
       infiniteScroll.complete();
-    }, 500);
+    }, 0);
   }
 
 

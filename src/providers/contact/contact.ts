@@ -22,7 +22,7 @@ export class ContactProvider {
   dbRemote: PouchDB.Database;
 
   dbOptions: any = {
-    limit: 5,
+    limit: 20,
     include_docs: true,
   };
 
