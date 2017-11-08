@@ -33,6 +33,12 @@
   <ion-navbar>
     <ion-input style="background-color:white;" placeholder="Search ..." [(ngModel)]="query">
     </ion-input>
+    <ion-item no-lines>
+      <ion-select [(ngModel)]="type"  (ngModelChange)="search($event)">
+        <ion-option value="contact-generated">generated</ion-option>
+        <ion-option value="contact-example">manual</ion-option>
+      </ion-select>
+    </ion-item>
   </ion-navbar>
 </ion-header>
 
@@ -61,8 +67,16 @@
         </button>
       </ion-item-options>
     </ion-item-sliding>
-
+    <ion-infinite-scroll distance="2" (ionInfinite)="doInfinite($event)">
+        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  
   </ion-list>
+-
+ -  
+
+
+
 </ion-content>
 
 <ion-footer>

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 
 import { Nav, Platform } from 'ionic-angular';
-import { ContactProvider, Contact } from '../../providers/contact/contact';
+import { ContactProvider, Contact, ContactMeta } from '../../providers/contact/contact';
 
 import { CarSearchPage } from '../../pages/car-search/car-search'
 import { AppSettingsPage } from '../../pages/app-settings/app-settings'
@@ -48,11 +48,11 @@ export class NavigationComponent {
   gotoCustomerRadar () {
     this.ngProgress.start()
     let contact;
-    this.contactProvider.getAllContacts().then (
+    this.contactProvider.getAllContacts(new ContactMeta().type[0]).then (
       data => {
         this.ngProgress.done()
         var markers = [];
-        for (let entry of data.rows as any) {
+        for (let entry of data.docs as any) {
           markers.push({ 
             lat: Number.parseFloat(entry.latitude), 
             lng: Number.parseFloat(entry.longitude)})      

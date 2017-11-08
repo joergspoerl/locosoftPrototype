@@ -21,6 +21,11 @@ export class ContactProvider {
   dbLocal: PouchDB.Database;
   dbRemote: PouchDB.Database;
 
+  dbOptions: any = {
+    limit: 5,
+    include_docs: true,
+  };
+
   constructor(
     public http: Http,
     public toastMessageProvider: ToastMessageProvider,
@@ -53,47 +58,47 @@ export class ContactProvider {
   //   return this.http.get('/assets/data/contact-600.json')
   // }
 
-  getAllContacts() {
+  getAllContacts(type:string) {
 
-    return this.dbLocal.allDocs({
-      include_docs: true,
-      attachments: true
-    });
 
-    // return this.dbLocal.find({
-    //   selector: {
-    //     type: 'contact-example'
-    //   }
-    // })
+    // return this.dbLocal.allDocs({
+    //   include_docs: true,
+    //   attachments: true
+    // });
+
+    return this.dbLocal.find({
+      selector: { type: type },
+      limit: 20
+    })
   }
 
-  // createExampleContactDB() {
-  //   console.log("createExampleContactDB() start")
+  
+  getContactPager () {
 
-  //   this.loading.show("Create example ContactsDB");
+    return new Promise( (resolve, reject ) => {
 
-  //   this.getAllContactsStatic().subscribe(
+      this.dbLocal.allDocs(this.dbOptions).then(
+        response => {
+          if (response && response.rows.length > 0) {
+            this.dbOptions.startkey = response.rows[response.rows.length - 1].id;
+            this.dbOptions.skip = 1;
+            console.log("response", response)
+            resolve(response)
+          }
+        },
+        error => {
+          console.log("error", error)
+          reject(error);
+        }
+      ) 
+  
+    })
 
-  //     result => {
-  //       let dataSet = result.json();
+      
+  
+    
+  }
 
-  //       for (let contact of dataSet) {
-  //         this.dbLocal.put(contact).then(
-  //           result => {
-  //             //console.log(result);
-  //           },
-  //           error => {
-  //             //console.log(error);
-  //           }
-  //         )
-  //       }
-  //       this.loading.hide();
-  //     },
-
-  //     error => {
-  //       console.log(error);
-  //     })
-  // }
 
   sync() {
     this.ngProgress.start();
@@ -140,14 +145,14 @@ export class ContactProvider {
 
   randomizePicture() {
     this.ngProgress.start();
-    this.getAllContacts().then(
+    this.getAllContacts('contact-generated').then(
 
       result => {
 
         this.ngProgress.done();
 
-        result.rows.forEach(item => {
-          var contact = item.doc as any;
+        result.docs.forEach(item => {
+          var contact = item as any;
 
           contact.picture = new Contact().randomPictureUrl();
 
@@ -208,14 +213,14 @@ export class ContactProvider {
   deleteRandomUsers(count) {
     var counter = 0;
     this.ngProgress.start();
-    this.getAllContacts().then(
+    this.getAllContacts('contact-generated').then(
 
       result => {
 
         this.ngProgress.done();
 
-        result.rows.forEach(item => {
-          var contact = item.doc as any;
+        result.docs.forEach(item => {
+          var contact = item as any;
 
           counter++
           if (counter < count) {
@@ -269,4 +274,8 @@ export class Contact {
     return "https://randomuser.me/api/portraits/" + (Math.random() >= 0.5 ? 'men' : 'women') + "/" + Math.floor(Math.random() * (100)) + ".jpg"
   }
 
+}
+
+export class ContactMeta {
+  type:string[] = ['contact-examples', 'contact-generated']
 }

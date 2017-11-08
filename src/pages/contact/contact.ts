@@ -19,6 +19,8 @@ export class ContactPage {
   syncHandler: any;
   toastSubscription: any;
 
+  type: string = 'contact-example';
+
   constructor(
     public navCtrl: NavController,
     public contactProvider: ContactProvider,
@@ -46,13 +48,13 @@ export class ContactPage {
 
   getAllContacts() {
     this.ngProgress.start();
-    this.contactProvider.getAllContacts().then(
+    this.contactProvider.getAllContacts(this.type).then(
 
       result => {
         this.contacts = [];
-        result.rows.forEach( item => {
+        result.docs.forEach( item => {
           //console.log("item", item.doc)
-          this.contacts.push(item.doc);
+          this.contacts.push(item);
         });
         //console.log("this.contacts", this.contacts)
         this.ngProgress.done();
@@ -65,6 +67,10 @@ export class ContactPage {
         this.ngProgress.done();
       }
     )
+  }
+
+  search($event) {
+    this.getAllContacts();
   }
 
   startLiveSync () {
@@ -144,6 +150,27 @@ export class ContactPage {
         console.log("Error: ", er);
       }
     );   
+  }
+
+
+
+  doInfinite(infiniteScroll) {
+    console.log('Begin async operation');
+    let self = this;
+
+    setTimeout(() => {
+      this.contactProvider.getContactPager().then(
+        result => {
+          var r = result as any;
+          for (let contact of r.rows) {
+            self.contacts.push(contact.doc)
+            console.log("insert", contact.doc)
+          }
+      });
+
+      console.log('Async operation has ended');
+      infiniteScroll.complete();
+    }, 500);
   }
 
 
