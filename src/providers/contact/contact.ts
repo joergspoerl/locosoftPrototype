@@ -70,7 +70,7 @@ export class ContactProvider {
 
     return this.dbLocal.find({
       selector: { type: type },
-      limit: 20
+      //limit: 20
     })
   }
 
@@ -214,6 +214,7 @@ export class ContactProvider {
 
 
   deleteRandomUsers(count) {
+    console.log("count: ", count)
     var counter = 0;
     this.ngProgress.start();
     this.getAllContacts('contact-generated').then(
@@ -228,10 +229,11 @@ export class ContactProvider {
           counter++
           if (counter < count) {
             this.remove(contact);
+            console.log("Delete: ", item);
           }
 
-          console.log("Delete: ", item);
         })
+
 
       },
 
