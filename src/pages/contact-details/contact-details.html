@@ -29,7 +29,7 @@
     <ion-list>
       <ion-item>
         <ion-card>
-          <contact-picture [contactId]="contact._id"></contact-picture>
+          <contact-picture [contactId]="contact._id" *ngIf="!newAttachment"></contact-picture>
           <img [src]="" #picture id="picture">
           <input type="file" #pictureFileUploadInput id="pictureFileUploadInput">          
         </ion-card>

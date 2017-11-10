@@ -49,7 +49,7 @@ export class ContactDetailsPage {
       // preview
       picture.src =  URL.createObjectURL(self.newAttachment);
       console.log("self.newAttachment", self.newAttachment)
-      
+
     });
   }
     
