@@ -33,46 +33,11 @@
   <ion-navbar>
     <ion-input style="background-color:white;" placeholder="Search ..." [(ngModel)]="query">
     </ion-input>
-    <ion-item no-lines>
-      <ion-select [(ngModel)]="type"  (ngModelChange)="search($event)">
-        <ion-option value="contact-generated">generated</ion-option>
-        <ion-option value="contact-example">manual</ion-option>
-      </ion-select>
-    </ion-item>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
-
-  <!-- <ion-list>
-
-    <ion-item-sliding *ngFor="let contact of contacts | search:'name,address':query">
-      <button ion-item (click)="gotoContactDetails(contact)">
-
-        <ion-avatar item-start>
-          <contact-picture [contactId]="contact._id" ></contact-picture>
-        </ion-avatar>
-        <h6>{{contact._id}}</h6>
-        
-        <h1>{{contact.name}}</h1>
-        <h2>{{contact.phone}}</h2>
-        <h3>{{contact.address}}</h3>
-      </button>
-      <ion-item-options side="right">
-        <button ion-button expandable (click)="showContactMap(contact)">
-          <ion-icon name="globe"></ion-icon>&nbsp;Karte
-        </button>
-        <button ion-button expandable (click)="remove(contact)">
-          <ion-icon name="trash"></ion-icon>&nbsp;Löschen
-        </button>
-      </ion-item-options>
-    </ion-item-sliding>
-    <ion-infinite-scroll distance="2" (ionInfinite)="doInfinite($event)">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
-    </ion-infinite-scroll>
-  
-  </ion-list> -->
 
   <ion-list [virtualScroll]="contacts | search:'name,address':query" approxItemHeight="100px">
   
@@ -104,13 +69,25 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-item no-lines secondary>
+    <ion-item no-lines>
+      
       <button ion-button *ngIf="contacts">
         # {{ contacts.length }}
       </button>
+
       <button ion-button *ngIf="contacts_total_rows">
           total: {{ contacts_total_rows }}
       </button>
+
+      <button ion-button item-end (click)="clickChangeType()">
+        {{typeShort}}
+      </button>
+    
+      <!-- <ion-select  [(ngModel)]="type"  (ngModelChange)="search($event)">
+        <ion-option value="contact-generated">generated</ion-option>
+        <ion-option value="contact-example">manual</ion-option>
+      </ion-select> -->
+
     </ion-item>
   </ion-toolbar>
 </ion-footer>

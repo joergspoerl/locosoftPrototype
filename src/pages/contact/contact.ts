@@ -21,7 +21,8 @@ export class ContactPage {
   syncHandler: any;
   toastSubscription: any;
 
-  type: string = 'contact-example';
+  type: ContactType = new ContactType();
+  typeShort: string;
 
   constructor(
     public navCtrl: NavController,
@@ -40,6 +41,7 @@ export class ContactPage {
   }
 
   ionViewDidEnter() {
+    this.typeShort = this.type.getTypeShort();
     this.getAllContacts();
     this.getTotalRows();
     //this.getAllContacts();
@@ -54,7 +56,7 @@ export class ContactPage {
 
   getAllContacts() {
     this.ngProgress.start();
-    this.contactProvider.getAllContacts(this.type).then(
+    this.contactProvider.getAllContacts(this.type.getType()).then(
 
       result => {
         this.contacts = [];
@@ -78,6 +80,13 @@ export class ContactPage {
   search($event) {
     this.getAllContacts();
   }
+
+  clickChangeType() {
+    this.type.next()
+    this.typeShort = this.type.getTypeShort();
+    this.getAllContacts();
+  }
+
 
   startLiveSync () {
     var self = this;
@@ -176,3 +185,24 @@ export class ContactPage {
 
 }
 
+
+export class ContactType {
+  type:number = 0;
+  types: string[]      = ['contact-example','contact-generated'];
+  typesShort: string[] = ['example','generated'];
+
+  next() {
+    this.type++;
+    if (this.type >= this.types.length)
+        this.type = 0;
+  }
+
+  getType () {
+    return this.types[this.type]
+  }
+  getTypeShort () {
+    console.log("getTypeShort")
+    return this.typesShort[this.type]
+  }
+
+}
