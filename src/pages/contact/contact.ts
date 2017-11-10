@@ -40,7 +40,7 @@ export class ContactPage {
   }
 
   ionViewDidEnter() {
-    this.getContactPager();
+    this.getAllContacts();
     this.getTotalRows();
     //this.getAllContacts();
     this.startLiveSync();    
@@ -75,7 +75,7 @@ export class ContactPage {
   }
 
   search($event) {
-    this.getContactPager(true);
+    this.getAllContacts();
   }
 
   startLiveSync () {
@@ -175,6 +175,12 @@ export class ContactPage {
     }, 0);
   }
 
+  getPicture() {
+      console.log("getPicture()");
+      return 'https://randomuser.me/api/portraits/women/12.jpg';
+  }
+
+
   getContactPager (reset?:boolean) {
     if (reset)
       this.contacts = [];
@@ -190,12 +196,13 @@ export class ContactPage {
           //   }
           // )
 
-          self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
-            blob => {
-              contact.pictureAttachment = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-              console.log("contact.pictureDATA", contact.pictureAttachment);
-            }
-          )
+          // self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
+          //   blob => {
+          //     contact.pictureAttachment = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+          //     console.log("contact.pictureAttachment", contact.pictureAttachment);
+          //   },
+          //   error => { console.log(error)}
+          // )
           
 
           self.contacts.push(contact)
