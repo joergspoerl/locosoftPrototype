@@ -34,6 +34,9 @@ export class TestPage {
   fileupload_doc = '2017-11-08T12:42:38.298Z';
   image_filename = 'picture.png'
 
+  _id:string;
+  _rev:string;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,

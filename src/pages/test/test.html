@@ -142,4 +142,30 @@
     </ion-card>
 
 
+    <ion-card>
+        <ion-card-header>
+            contact-picture component
+        </ion-card-header>
+
+        <ion-card-content>
+            <button ion-button block (click)="_id = '2017-11-08T12:13:16.295Z'">
+                1
+            </button>
+
+            <button ion-button block (click)="_id = '2017-11-08T12:13:05.006Z'">
+                2
+            </button>
+
+        _id = {{_id}} <br>
+        _rev = {{_rev}} <br>
+        
+        ---
+            <contact-picture [contactId]="_id" 
+                             [contactRev]="_rev"></contact-picture>
+            </ion-card-content>
+        ---
+            
+    </ion-card>
+
+
 </ion-content>

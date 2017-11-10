@@ -45,7 +45,8 @@
       <button ion-item (click)="gotoContactDetails(contact)">
     
         <ion-avatar item-start>
-          <contact-picture [contactId]="contact._id"></contact-picture>
+          <contact-picture [contactId]="contact._id" 
+                           [contactRev]="contact._rev"></contact-picture>
         </ion-avatar>
         <h6>{{contact._id}}</h6>
     

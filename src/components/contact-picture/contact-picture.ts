@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input,  OnChanges, SimpleChange } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser'
 
 import { ContactProvider, Contact } from '../../providers/contact/contact';
@@ -15,6 +15,7 @@ import { ContactProvider, Contact } from '../../providers/contact/contact';
 })
 export class ContactPictureComponent {
   @Input() contactId: string;
+  @Input() contactRev: string;
   
   text: string;
   url: any = "";
@@ -42,6 +43,11 @@ export class ContactPictureComponent {
       error => { console.log(error)}
     )
 
+  }
+  ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
+    console.log("changes: ", changes);
+    this.ngOnDestroy();
+    this.ngOnInit();
   }
 
   ngOnDestroy () {
