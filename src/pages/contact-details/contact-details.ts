@@ -54,7 +54,7 @@ export class ContactDetailsPage {
   }
     
 
-  save(contact: Contact) {
+  put(contact: Contact) {
     console.log("save: ", contact);
     if (contact.name && contact.name != '') {
 
@@ -62,9 +62,9 @@ export class ContactDetailsPage {
       delete (contact as any).pictureAttachment;
       delete (contact as any).pictureDATA;
       
-      this.contactProvider.save(contact).then(
+      this.contactProvider.put(contact).then(
         ok => {
-          this.savePicture(contact);
+          this.putPicture(contact);
           this.navCtrl.pop()
         },
         error => { }
@@ -73,15 +73,10 @@ export class ContactDetailsPage {
   }
 
 
-  savePicture(contact: Contact) {
-    console.log("this.newAttachment", this.newAttachment)
-    console.log("savePicture()")
+  putPicture(contact: Contact) {
     let self = this;
-    console.log("self.newAttachment", self.newAttachment)
     self.contactProvider.dbLocal.get(contact._id).then(
       result => {
-
-        console.log("self.newAttachment", self.newAttachment)
         self.contactProvider.dbLocal.putAttachment(result._id, 'picture.png', result._rev, self.newAttachment, 'text/plain', cb => console.log('putAttachment: ', cb))
       }
     )

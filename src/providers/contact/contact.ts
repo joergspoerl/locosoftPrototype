@@ -132,13 +132,11 @@ export class ContactProvider {
 
 
 
-  save(contact) {
-    this.toastMessageProvider.show("Save Contact");
+  put(contact) {
     return this.dbLocal.put(contact)
   }
 
   remove(contact) {
-    this.toastMessageProvider.show("Delete Contact");
     return this.dbLocal.remove(contact)
   }
 
@@ -146,103 +144,6 @@ export class ContactProvider {
     return this.dbLocal.destroy()
   }
 
-  randomizePicture() {
-    this.ngProgress.start();
-    this.getAllContacts('contact-generated').then(
-
-      result => {
-
-        this.ngProgress.done();
-
-        result.docs.forEach(item => {
-          var contact = item as any;
-
-          contact.picture = new Contact().randomPictureUrl();
-
-          this.save(contact);
-
-          console.log("item: ", item);
-        })
-
-        //this.startLiveSync();
-      },
-
-      error => {
-        console.log("error", error)
-        this.ngProgress.done();
-      }
-    )
-  }
-
-
-
-
-  createRandomUser() {
-    this.http.get('https://randomuser.me/api/').subscribe(
-      result => {
-        console.log("result", result);
-        var newContact = new Contact();
-        var randomUser = result.json().results[0];
-        console.log("randomUser", randomUser)
-        newContact.name = randomUser.name.last;
-        newContact.address = randomUser.location.street;
-        newContact.phone = randomUser.phone;
-        newContact.type = 'contact-generated';
-
-        this.save(newContact);
-      }
-    )
-  }
-
-
-  createRandomUsers(count) {
-
-    this.ngProgress.start();
-
-    let counter = 0;
-
-    let interval = setInterval(() => {
-      this.createRandomUser();
-      counter++;
-      if (counter >= count) {
-        clearInterval(interval);
-        this.ngProgress.done();
-      }
-    }, 100)
-
-  }
-
-
-  deleteRandomUsers(count) {
-    console.log("count: ", count)
-    var counter = 0;
-    this.ngProgress.start();
-    this.getAllContacts('contact-generated').then(
-
-      result => {
-
-        this.ngProgress.done();
-
-        result.docs.forEach(item => {
-          var contact = item as any;
-
-          counter++
-          if (counter < count) {
-            this.remove(contact);
-            console.log("Delete: ", item);
-          }
-
-        })
-
-
-      },
-
-      error => {
-        console.log("error", error)
-        this.ngProgress.done();
-      }
-    )
-  }
 
 
 }

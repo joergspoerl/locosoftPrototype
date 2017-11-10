@@ -33,6 +33,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 import { NgProgressModule } from 'ngx-progressbar';
+import { ContactGeneratorProvider } from '../providers/contact-generator/contact-generator';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { NgProgressModule } from 'ngx-progressbar';
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ContactProvider,
     Geolocation,
-    LoggingProvider
+    LoggingProvider,
+    ContactGeneratorProvider
   ]
 })
 export class AppModule {}

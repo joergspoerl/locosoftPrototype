@@ -163,53 +163,6 @@ export class ContactPage {
 
 
 
-  doInfinite(infiniteScroll) {
-    console.log('Begin async operation');
-    let self = this;
-
-    setTimeout(() => {
-
-      this.getContactPager()
-
-      //console.log('Async operation has ended');
-      infiniteScroll.complete();
-    }, 0);
-  }
-
-  getPicture() {
-      console.log("getPicture()");
-      return 'https://randomuser.me/api/portraits/women/12.jpg';
-  }
-
-
-  getContactPager (reset?:boolean) {
-    if (reset)
-      this.contacts = [];
-    var self = this;
-    this.contactProvider.getContactPager(this.type,reset).then(
-      result => {
-        var r = result as any;
-        for (let contact of r.docs) {
-
-          // self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
-          //   blob => {
-          //     contact.pictureDATA = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-          //   }
-          // )
-
-          // self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
-          //   blob => {
-          //     contact.pictureAttachment = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-          //     console.log("contact.pictureAttachment", contact.pictureAttachment);
-          //   },
-          //   error => { console.log(error)}
-          // )
-          
-
-          self.contacts.push(contact)
-        }
-    });
-  }
 
 
   getTotalRows() {

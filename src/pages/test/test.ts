@@ -8,6 +8,7 @@ import { ToastsManager, Toast } from 'ng2-toastr/ng2-toastr';
 import { NgProgress } from 'ngx-progressbar';
 
 import { ContactProvider, Contact } from '../../providers/contact/contact';
+import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
 
 import { Observable } from 'rxjs'
 
@@ -40,6 +41,7 @@ export class TestPage {
     public toastr: ToastsManager,
     public ngProgress: NgProgress,
     public contactProvider: ContactProvider,
+    public contactGeneratorProvider: ContactGeneratorProvider,
     public http: Http,
 
   ) {
@@ -90,15 +92,15 @@ export class TestPage {
   }
 
   randomizePicture() {
-    this.contactProvider.randomizePicture();
+    this.contactGeneratorProvider.randomizePicture();
   }
 
   createRandomUsers() {
-    this.contactProvider.createRandomUsers(this.count);
+    this.contactGeneratorProvider.createRandomUsers(this.count);
   }
 
   deleteRandomUsers() {
-    this.contactProvider.deleteRandomUsers(this.count);
+    this.contactGeneratorProvider.deleteRandomUsers(this.count);
   }
 
   getContactPager() {
