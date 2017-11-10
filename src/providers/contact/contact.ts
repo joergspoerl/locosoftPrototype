@@ -252,6 +252,7 @@ export class ContactProvider {
 export class Contact {
 
   "_id" = new Date().toISOString();
+  "_rev" = ""
   "type" = "contact-example"
   "index" = 0
   "guid" = ""

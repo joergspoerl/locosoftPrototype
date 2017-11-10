@@ -6,7 +6,7 @@ import { GoogleMapsPage } from '../google-maps/google-maps'
 //import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgProgress } from 'ngx-progressbar';
-
+import { DomSanitizer } from '@angular/platform-browser'
 
 
 @Component({
@@ -28,7 +28,8 @@ export class ContactPage {
     public contactProvider: ContactProvider,
     //public toastMessageProvider: ToastMessageProvider,
     public toastsManager: ToastsManager,
-    public ngProgress: NgProgress
+    public ngProgress: NgProgress,
+    private sanitizer: DomSanitizer,
     
   ) {
 
@@ -182,6 +183,21 @@ export class ContactPage {
       result => {
         var r = result as any;
         for (let contact of r.docs) {
+
+          // self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
+          //   blob => {
+          //     contact.pictureDATA = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+          //   }
+          // )
+
+          self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
+            blob => {
+              contact.pictureDATA = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+              console.log("contact.pictureDATA", contact.pictureDATA);
+            }
+          )
+          
+
           self.contacts.push(contact)
         }
     });

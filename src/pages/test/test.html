@@ -88,12 +88,58 @@
             </button>
 
             <button ion-button block (click)="getContactPager()">
-                    getContactPager
-                </button>
-    
+                getContactPager
+            </button>
+
         </ion-card-content>
     </ion-card>
 
+
+
+    <ion-card>
+        <ion-card-header>
+            Fileupload in DB
+        </ion-card-header>
+
+        <ion-card-content>
+            <input type="file" #TestFileInput id="TestFileInput">
+            <img #TestFileImg id="TestFileImg">
+        </ion-card-content>
+    </ion-card>
+
+
+
+    <ion-card>
+        <ion-card-header>
+            Import contact pictures in db
+        </ion-card-header>
+
+        <ion-card-content>
+            <button ion-button block (click)="importContactPicture()">
+                importContactPicture
+            </button>
+
+            <img #ImportImg id="ImportImg">
+            <!-- crossOrigin="Anonymous" -->
+
+            <canvas #ImportCanvas id="ImportCanvas"></canvas>
+
+            <button ion-button block (click)="getImageFromUrl()">
+                getImageFromUrl
+            </button>
+
+            <button ion-button block (click)="deleteContactAttachments()">
+                    deleteContactAttachments
+            </button>
+
+            <button ion-button block (click)="getAllContactsWithPictureSubscribe()">
+                    getAllContactsWithPictureSubscribe
+            </button>
+
+            <img #OutputImage id="OutputImage">
+            
+        </ion-card-content>
+    </ion-card>
 
 
 </ion-content>
