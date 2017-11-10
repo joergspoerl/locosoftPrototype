@@ -192,8 +192,8 @@ export class ContactPage {
 
           self.contactProvider.dbLocal.getAttachment(contact._id, 'picture.png').then(
             blob => {
-              contact.pictureDATA = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-              console.log("contact.pictureDATA", contact.pictureDATA);
+              contact.pictureAttachment = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+              console.log("contact.pictureDATA", contact.pictureAttachment);
             }
           )
           
