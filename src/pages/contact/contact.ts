@@ -51,6 +51,7 @@ export class ContactPage {
     this.stopLiveSync();    
   }
 
+
   getAllContacts() {
     this.ngProgress.start();
     this.contactProvider.getAllContacts(this.type).then(

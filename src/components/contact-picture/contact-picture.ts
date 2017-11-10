@@ -18,6 +18,7 @@ export class ContactPictureComponent {
   
   text: string;
   url: any = "";
+  urlOrign: any;
 
   constructor(
     public contactProvider: ContactProvider,
@@ -34,7 +35,8 @@ export class ContactPictureComponent {
 
     self.contactProvider.dbLocal.getAttachment(self.contactId, 'picture.png').then(
       blob => {
-        self.url = self.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        self.urlOrign = URL.createObjectURL(blob);
+        self.url = self.sanitizer.bypassSecurityTrustUrl(self.urlOrign);
         //console.log("self.url", self.url);
       },
       error => { console.log(error)}
@@ -42,4 +44,8 @@ export class ContactPictureComponent {
 
   }
 
+  ngOnDestroy () {
+    console.log("ngOnDestroy");
+    URL.revokeObjectURL(this.urlOrign);
+  }
 }

@@ -29,7 +29,8 @@
     <ion-list>
       <ion-item>
         <ion-card>
-          <img [src]="contact.pictureAttachment" #picture id="picture">
+          <contact-picture [contactId]="contact._id"></contact-picture>
+          <img [src]="" #picture id="picture">
           <input type="file" #pictureFileUploadInput id="pictureFileUploadInput">          
         </ion-card>
       </ion-item>

@@ -74,7 +74,7 @@
   
   </ion-list> -->
 
-  <ion-list [virtualScroll]="contacts | search:'name,address':query">
+  <ion-list [virtualScroll]="contacts | search:'name,address':query" approxItemHeight="100px">
   
     <ion-item-sliding *virtualItem="let contact">
       <button ion-item (click)="gotoContactDetails(contact)">
