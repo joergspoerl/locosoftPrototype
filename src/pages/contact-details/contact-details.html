@@ -31,7 +31,8 @@
         <ion-card>
           <contact-picture [contactId]="contact._id" *ngIf="!newAttachment"></contact-picture>
           <img [src]="" #picture id="picture">
-          <input type="file" #pictureFileUploadInput id="pictureFileUploadInput">          
+          <input class="button-md" type="file" #pictureFileUploadInput id="pictureFileUploadInput" *ngIf="!isCordova==true">          
+          <button ion-button small block (click)="getCordovaImage()" *ngIf="isCordova==true">Choose a Picture</button>
         </ion-card>
       </ion-item>
       <ion-item>

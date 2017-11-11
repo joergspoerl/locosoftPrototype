@@ -48,8 +48,8 @@
           <contact-picture [contactId]="contact._id" 
                            [contactRev]="contact._rev"></contact-picture>
         </ion-avatar>
-        <h6>{{contact._id}}</h6>
-    
+        <!-- <h6>{{contact._id}}</h6>
+     -->
         <h1>{{contact.name}}</h1>
         <h2>{{contact.phone}}</h2>
         <h3>{{contact.address}}</h3>
@@ -71,15 +71,19 @@
 <ion-footer>
     <ion-item no-lines>
       
-      <button ion-button *ngIf="contacts">
+      <button ion-button color="light" *ngIf="contacts">
         # {{ contacts.length }}
       </button>
 
-      <button ion-button *ngIf="contacts_total_rows">
+      <button ion-button color="light"*ngIf="contacts_total_rows">
           total: {{ contacts_total_rows }}
       </button>
 
-      <button ion-button item-end (click)="clickChangeType()">
+      <button ion-button color="light"*ngIf="replication_info">
+          {{ replication_info }}
+      </button>
+
+      <button ion-button item-end color="light" (click)="clickChangeType()">
         {{typeShort}}
       </button>
     

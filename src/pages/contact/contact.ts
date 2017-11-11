@@ -17,6 +17,7 @@ export class ContactPage {
 
   contacts: any[] = [];
   contacts_total_rows: number;
+  replication_info: string;
 
   syncHandler: any;
   toastSubscription: any;
@@ -96,22 +97,25 @@ export class ContactPage {
       retry: true
     }).on('change', function (change) {
       console.log ("LiveSync change: ", change);
-      change.change.docs.some(
-        item => {
-          if (item._id) {
-              var contact = item as any;
-              console.log('New contact: ', contact.name);
-              // self.toastsManager.info(contact.name,'Received new contact',  { dismiss: 'click', showCloseButton: true }).then(
-              //   toast => {
-              //     //self.toastMessageProvider.toastr.dismissToast(toast);
-              //   }
-              // )
+      self.replication_info = change.change.ok + ':' + change.change.docs_read + ':' + change.change.docs_written + ':' + change.change.last_seq
+      self.getTotalRows();
 
-              self.getTotalRows();
+      // change.change.docs.some(
+      //   item => {
+      //     if (item._id) {
+      //         var contact = item as any;
+      //         //console.log('New contact: ', contact.name);
+      //         // self.toastsManager.info(contact.name,'Received new contact',  { dismiss: 'click', showCloseButton: true }).then(
+      //         //   toast => {
+      //         //     //self.toastMessageProvider.toastr.dismissToast(toast);
+      //         //   }
+      //         // )
 
-              return true; // break
-          }
-        })
+
+      //         return true; // break
+      //     }
+      //   })
+      // 
       self.getAllContacts();
       // yo, something changed!
     }).on('paused', function (info) {

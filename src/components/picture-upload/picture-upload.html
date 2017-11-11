@@ -1,4 +1,5 @@
 <!-- Generated template for the PictureUploadComponent component -->
 <div>
-  {{text}}
+    <img [src]="blobImageUrl" alt="Preview">    
+    <button ion-button block color="secondary" (click)="getImage()">Select Image</button>
 </div>

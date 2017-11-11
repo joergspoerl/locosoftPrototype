@@ -39,6 +39,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
+
+
 @NgModule({
   declarations: [
     MyApp,

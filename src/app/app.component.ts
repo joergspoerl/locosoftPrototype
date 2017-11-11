@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { TestPage } from '../pages/test/test';
 import { ListPage } from '../pages/list/list';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
@@ -46,6 +47,14 @@ export class MyApp {
       this.toastr.setRootViewContainerRef(vRef);
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      console.log("is_ios", this.platform.is('ios'));
+      console.log("is_android", this.platform.is('ios'));
+      console.log("is_cordova", this.platform.is('cordova'));
+      console.log("is_webapp", this.platform.is('webapp'));
+      
+      // go for development to test page
+      // this.nav.push(TestPage);
     });
   }
 
