@@ -26,7 +26,7 @@ export class ContactPictureComponent {
     private sanitizer: DomSanitizer,
     
   ) {
-    console.log('Hello ContactPictureComponent Component');
+    //console.log('Hello ContactPictureComponent Component');
     this.text = 'Hello World';
   }
 
@@ -45,13 +45,13 @@ export class ContactPictureComponent {
 
   }
   ngOnChanges(changes: {[propKey: string]: SimpleChange}) {
-    console.log("changes: ", changes);
+    //console.log("changes: ", changes);
     this.ngOnDestroy();
     this.ngOnInit();
   }
 
   ngOnDestroy () {
-    console.log("ngOnDestroy");
+    //console.log("ngOnDestroy");
     URL.revokeObjectURL(this.urlOrign);
   }
 }
