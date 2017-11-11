@@ -144,6 +144,15 @@ export class ContactProvider {
     return this.dbLocal.destroy()
   }
 
+  putPicture(contact: Contact, picture) {
+    let self = this;
+    self.dbLocal.get(contact._id).then(
+      result => {
+        self.dbLocal.putAttachment(result._id, 'picture.png', result._rev, picture, 'text/plain', cb => console.log('putAttachment: ', cb))
+      }
+    )
+
+  }
 
 
 }

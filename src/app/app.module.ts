@@ -35,6 +35,10 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { NgProgressModule } from 'ngx-progressbar';
 import { ContactGeneratorProvider } from '../providers/contact-generator/contact-generator';
 
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { File } from '@ionic-native/file';
+import { Camera } from '@ionic-native/camera';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -78,7 +82,11 @@ import { ContactGeneratorProvider } from '../providers/contact-generator/contact
     ContactProvider,
     Geolocation,
     LoggingProvider,
-    ContactGeneratorProvider
+    ContactGeneratorProvider,
+    FileTransfer,
+    FileTransferObject,
+    File,
+    Camera
   ]
 })
 export class AppModule {}

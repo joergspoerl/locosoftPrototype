@@ -55,6 +55,7 @@ export class ContactDetailsPage {
     
 
   put(contact: Contact) {
+    let self = this;
     console.log("save: ", contact);
     if (contact.name && contact.name != '') {
 
@@ -64,7 +65,7 @@ export class ContactDetailsPage {
       
       this.contactProvider.put(contact).then(
         ok => {
-          this.putPicture(contact);
+          this.contactProvider.putPicture(contact, self.newAttachment);
           this.navCtrl.pop()
         },
         error => { }
@@ -73,15 +74,6 @@ export class ContactDetailsPage {
   }
 
 
-  putPicture(contact: Contact) {
-    let self = this;
-    self.contactProvider.dbLocal.get(contact._id).then(
-      result => {
-        self.contactProvider.dbLocal.putAttachment(result._id, 'picture.png', result._rev, self.newAttachment, 'text/plain', cb => console.log('putAttachment: ', cb))
-      }
-    )
-
-  }
 
   showMap(contact: Contact) {
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': [{ lat: contact.latitude, lng: contact.longitude }] });

@@ -109,7 +109,7 @@
 
 
 
-    <ion-card>
+    <ion-card *ngIf="false">
         <ion-card-header>
             Import contact pictures in db
         </ion-card-header>
@@ -166,6 +166,29 @@
         ---
             
     </ion-card>
+
+
+
+    <ion-card>
+        <ion-item>
+          <p>{{imageURI}}</p>
+          <button ion-button color="secondary" (click)="getImage()">Get Image</button>
+        </ion-item>
+        <ion-item>
+          <h4>Image Preview</h4>
+          <!-- <img src="{{imageFileName}}" *ngIf="imageFileName" alt="Ionic File" width="300" /> -->
+          ####
+          <img [src]="base64">
+          ####
+          ####
+          <img [src]="blobImageUrl">
+          ####
+          CameraOptions: {{cameraOptions}}
+        </ion-item>
+        <ion-item>
+          <button ion-button (click)="uploadFile()">Upload</button>
+        </ion-item>
+      </ion-card>
 
 
 </ion-content>

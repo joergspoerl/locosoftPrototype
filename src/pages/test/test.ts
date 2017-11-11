@@ -12,6 +12,11 @@ import { ContactGeneratorProvider } from '../../providers/contact-generator/cont
 
 import { Observable } from 'rxjs'
 
+import { LoadingController, ToastController } from 'ionic-angular';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
+import { Camera, CameraOptions } from '@ionic-native/camera';
+import { DomSanitizer } from '@angular/platform-browser'
+
 /**
  * Generated class for the TestPage page.
  *
@@ -37,6 +42,12 @@ export class TestPage {
   _id:string;
   _rev:string;
 
+  imageURI:any;
+  imageFileName:any;
+  base64:any;
+  cameraOptions: CameraOptions;
+  blobImageUrl: any;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -46,7 +57,12 @@ export class TestPage {
     public contactProvider: ContactProvider,
     public contactGeneratorProvider: ContactGeneratorProvider,
     public http: Http,
-
+    private transfer: FileTransfer,
+    private camera: Camera,
+    public loadingCtrl: LoadingController,
+    public toastCtrl: ToastController,
+    private sanitizer: DomSanitizer,
+    
   ) {
   }
 
@@ -317,5 +333,118 @@ export class TestPage {
     }
     )
   }
+
+
+  presentToast(msg) {
+    let toast = this.toastCtrl.create({
+      message: msg,
+      duration: 3000,
+      position: 'bottom'
+    });
+  
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+  
+    toast.present();
+  }
+
+  getImage() {
+    this.cameraOptions  = {
+      quality: 100,
+      //destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      targetWidth: 500,
+      targetHeight: 500
+    }
+  
+    this.camera.getPicture(this.cameraOptions).then((imageData) => {
+
+      //console.lo
+
+      //window.resolveLocalFileSystemURL(imageData, function success(fileEntry) {
+
+      //}
+        
+      this.base64 = "data:image/jpeg;base64," + imageData;
+      this.imageURI = imageData;
+
+      console.log("imageData", JSON.stringify(imageData));
+
+      var blob = b64toBlob(imageData, 'image/png', 512);
+      this.blobImageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob))
+
+      console.log("blobImageUrl", JSON.stringify(this.blobImageUrl));
+      
+      this.contactProvider.dbLocal.get('2017-11-08T12:13:16.295Z').then(
+        (contact:any) => {
+          console.log("contact: ", contact);
+          this.contactProvider.putPicture(contact, blob);
+          console.log("putPicture", JSON.stringify({contact: contact, blob: blob}));
+          
+        },
+        error => console.log("Error: ", error)
+      )
+      
+    }, (err) => {
+      console.log(err);
+      this.presentToast(err);
+    });
+
+    // from https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
+    function b64toBlob(b64Data, contentType, sliceSize) {
+      contentType = contentType || '';
+      sliceSize = sliceSize || 512;
+    
+      var byteCharacters = atob(b64Data);
+      var byteArrays = [];
+    
+      for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+        var slice = byteCharacters.slice(offset, offset + sliceSize);
+    
+        var byteNumbers = new Array(slice.length);
+        for (var i = 0; i < slice.length; i++) {
+          byteNumbers[i] = slice.charCodeAt(i);
+        }
+    
+        var byteArray = new Uint8Array(byteNumbers);
+    
+        byteArrays.push(byteArray);
+      }
+    
+      var blob = new Blob(byteArrays, {type: contentType});
+      return blob;
+    }
+  }
+
+  uploadFile() {
+    let loader = this.loadingCtrl.create({
+      content: "Uploading..."
+    });
+    loader.present();
+    const fileTransfer: FileTransferObject = this.transfer.create();
+  
+    let options: FileUploadOptions = {
+      fileKey: 'ionicfile',
+      fileName: 'ionicfile',
+      chunkedMode: false,
+      mimeType: "image/jpeg",
+      headers: {}
+    }
+  
+    fileTransfer.upload(this.imageURI, 'http://192.168.0.7:8080/api/uploadImage', options)
+      .then((data) => {
+      console.log(data+" Uploaded Successfully");
+      this.imageFileName = "http://192.168.0.7:8080/static/images/ionicfile.jpg"
+      loader.dismiss();
+      this.presentToast("Image uploaded successfully");
+    }, (err) => {
+      console.log(err);
+      loader.dismiss();
+      this.presentToast(err);
+    });
+  }
+
 
 }
