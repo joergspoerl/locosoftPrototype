@@ -7,6 +7,7 @@ import { ToastMessageProvider } from '../toastMessage/toastMessage'
 import PouchDB from "pouchdb";
 import find from 'pouchdb-find';
 import { NgProgress } from 'ngx-progressbar';
+import { Observable } from 'rxjs/Observable';
 
 
 /*
@@ -25,6 +26,7 @@ export class ContactProvider {
     limit: 20,
     include_docs: true,
   };
+
 
   constructor(
     public http: Http,
@@ -50,15 +52,10 @@ export class ContactProvider {
     console.log("dbRemote", this.dbRemote);
 
     this.ngProgress.done();
-
     this.createIndex();
-
-    this.sync();
+    //this.sync();
   }
 
-  // getAllContactsStatic() {
-  //   return this.http.get('/assets/data/contact-600.json')
-  // }
 
   getAllContacts(type:string) {
 
@@ -114,20 +111,49 @@ export class ContactProvider {
     })
   }
 
-  sync() {
-    this.ngProgress.start();
+  liveSync () {
+    let self = this;
+    let remote_update_seq: number;
+    let local_update_seq: number;
+    let replication_percent: number;
+    let syncHandler: any;
+  
+    return new Observable (observer => {
 
-    return this.dbLocal.sync(this.dbRemote).then(
-      ok => {
-        console.log("sync", ok)
-        this.ngProgress.done();
-      },
-      er => {
-        console.log("error", er)
-        //this.toastMessageProvider.toastr.error(JSON.stringify(er), 'Sync Error')
-        this.ngProgress.done();
+
+      this.dbRemote.info().then(
+        (info:any) => {
+          console.log("Remote info:", info);
+          remote_update_seq = Number.parseInt(info.update_seq);        
+        }
+      )
+  
+      syncHandler = this.dbLocal.sync(this.dbRemote, {
+        live: true,
+        retry: true,
+        timeout: 60000
+      }).on('change', function (change) {
+        // yo, something changed!
+        console.log ("LiveSync change: ", change);
+        local_update_seq = change.change.last_seq;
+        replication_percent = Math.round( 100 * local_update_seq / remote_update_seq);
+        change['replication_percent'] = replication_percent;
+
+        observer.next(change);
+
+      }).on('paused', function (info) {
+        // replication was paused, usually because of a lost connection
+      }).on('error', function (err) {
+        // totally unhandled error (shouldn't happen)
+      });
+  
+      // unsubscribe function
+      return () => { 
+        syncHandler.cancel();
       }
-    );
+    })
+
+
   }
 
 

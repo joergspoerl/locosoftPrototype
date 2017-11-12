@@ -7,6 +7,7 @@ import { GoogleMapsPage } from '../google-maps/google-maps'
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgProgress } from 'ngx-progressbar';
 import { DomSanitizer } from '@angular/platform-browser'
+import { Observable } from 'rxjs/Observable';
 
 
 @Component({
@@ -15,14 +16,12 @@ import { DomSanitizer } from '@angular/platform-browser'
 })
 export class ContactPage {
 
+  liveSync: any;
+
   contacts: any[] = [];
   contacts_total_rows: number;
   replication_info: string;
   
-  remote_update_seq: number;
-  local_update_seq: number;
-
-  syncHandler: any;
   toastSubscription: any;
 
   type: ContactType = new ContactType();
@@ -48,13 +47,17 @@ export class ContactPage {
     this.typeShort = this.type.getTypeShort();
     this.getAllContacts();
     this.getTotalRows();
-    //this.getAllContacts();
-    this.startLiveSync();    
+    
+    this.liveSync = this.contactProvider.liveSync().subscribe(
+      replication => {
+        console.log('replication: ', replication)
+        this.replication_info = replication['replication_percent'];
+      }
+    )
   }
 
   ionViewDidLeave() {
-    //this.getAllContacts();
-    this.stopLiveSync();    
+   this.liveSync.unsubscribe();     
   }
 
 
@@ -92,64 +95,6 @@ export class ContactPage {
   }
 
 
-  startLiveSync () {
-    var self = this;
-
-    this.contactProvider.dbRemote.info().then(
-      (info:any) => {
-        console.log("Remote info:", info);
-        this.remote_update_seq = Number.parseInt(info.update_seq);        
-      }
-    )
-
-    this.syncHandler = this.contactProvider.dbLocal.sync(this.contactProvider.dbRemote, {
-      live: true,
-      retry: true,
-      timeout: 60000
-    }).on('change', function (change) {
-      console.log ("LiveSync change: ", change);
-      self.local_update_seq = change.change.last_seq;
-      self.replication_info = String(Math.round( 100 * self.local_update_seq / self.remote_update_seq));
-      //self.replication_info = change.change.ok + ':' + change.change.docs_read + ':' + change.change.docs_written + ':' + change.change.last_seq
-      self.getTotalRows();
-
-      // change.change.docs.some(
-      //   item => {
-      //     if (item._id) {
-      //         var contact = item as any;
-      //         //console.log('New contact: ', contact.name);
-      //         // self.toastsManager.info(contact.name,'Received new contact',  { dismiss: 'click', showCloseButton: true }).then(
-      //         //   toast => {
-      //         //     //self.toastMessageProvider.toastr.dismissToast(toast);
-      //         //   }
-      //         // )
-
-
-      //         return true; // break
-      //     }
-      //   })
-      // 
-      self.getAllContacts();
-      // yo, something changed!
-    }).on('paused', function (info) {
-      // replication was paused, usually because of a lost connection
-    }).on('error', function (err) {
-      // totally unhandled error (shouldn't happen)
-    });
-
-
-    this.toastSubscription = this.toastsManager.onClickToast().subscribe(
-      toast => {
-        console.log("onClick: ", toast);
-        this.toastsManager.dismissToast(toast);
-      }
-    )
-  }
-
-  stopLiveSync() {
-    this.syncHandler.cancel();
-    this.toastSubscription.unsubscribe();
-  }
 
   gotoContactDetails(contact) {
     this.navCtrl.push(ContactDetailsPage, { 'contact' : contact });
