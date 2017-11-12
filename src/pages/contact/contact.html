@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
 
     <ion-title>
       Contacts
@@ -69,28 +69,28 @@
 </ion-content>
 
 <ion-footer>
-    <ion-item no-lines>
+  <div class="bottom_bar">
       
-      <button ion-button color="light" *ngIf="contacts">
+      <div class="bottom_info" *ngIf="contacts">
         # {{ contacts.length }}
-      </button>
+      </div>
 
-      <button ion-button color="light"*ngIf="contacts_total_rows">
+      <div class="bottom_info" *ngIf="contacts_total_rows">
           total: {{ contacts_total_rows }}
-      </button>
+      </div>
 
-      <button ion-button color="light"*ngIf="replication_info">
+      <div class="bottom_info" *ngIf="replication_info">
           {{ replication_info }} %
-      </button>
+      </div>
 
-      <button ion-button item-end color="light" (click)="clickChangeType()">
+      <div class="bottom_info" (click)="clickChangeType()">
         {{typeShort}}
-      </button>
+      </div>
     
       <!-- <ion-select  [(ngModel)]="type"  (ngModelChange)="search($event)">
         <ion-option value="contact-generated">generated</ion-option>
         <ion-option value="contact-example">manual</ion-option>
       </ion-select> -->
 
-    </ion-item>
+  </div>
 </ion-footer>

@@ -1,2 +1,21 @@
 page-contact {
+    .bottom_bar
+    {
+        position: fixed;
+        bottom: 0vh;
+        width: 100%;
+        display: flex;
+    }
+
+    .bottom_info {
+
+        color: white;
+        font-size: larger;
+        flex: auto;
+        text-align: center;
+        //background-color: rgba(130, 130, 130, 0.8);
+
+        background-color: color($colors, primary, base);
+        opacity: 0.9;
+    }
 }
