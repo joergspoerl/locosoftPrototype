@@ -18,6 +18,9 @@ export class ContactPage {
   contacts: any[] = [];
   contacts_total_rows: number;
   replication_info: string;
+  
+  remote_update_seq: number;
+  local_update_seq: number;
 
   syncHandler: any;
   toastSubscription: any;
@@ -92,12 +95,22 @@ export class ContactPage {
   startLiveSync () {
     var self = this;
 
+    this.contactProvider.dbRemote.info().then(
+      (info:any) => {
+        console.log("Remote info:", info);
+        this.remote_update_seq = Number.parseInt(info.update_seq);        
+      }
+    )
+
     this.syncHandler = this.contactProvider.dbLocal.sync(this.contactProvider.dbRemote, {
       live: true,
-      retry: true
+      retry: true,
+      timeout: 60000
     }).on('change', function (change) {
       console.log ("LiveSync change: ", change);
-      self.replication_info = change.change.ok + ':' + change.change.docs_read + ':' + change.change.docs_written + ':' + change.change.last_seq
+      self.local_update_seq = change.change.last_seq;
+      self.replication_info = String(Math.round( 100 * self.local_update_seq / self.remote_update_seq));
+      //self.replication_info = change.change.ok + ':' + change.change.docs_read + ':' + change.change.docs_written + ':' + change.change.last_seq
       self.getTotalRows();
 
       // change.change.docs.some(
