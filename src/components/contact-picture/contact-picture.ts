@@ -26,12 +26,11 @@ export class ContactPictureComponent {
     private sanitizer: DomSanitizer,
     
   ) {
-    //console.log('Hello ContactPictureComponent Component');
-    this.text = 'Hello World';
+    //
   }
 
   ngOnInit() {
-    this.text = 'picture';
+    //this.text = 'picture';
     let self = this;
 
     self.contactProvider.dbLocal.getAttachment(self.contactId, 'picture.png').then(
@@ -40,7 +39,10 @@ export class ContactPictureComponent {
         self.url = self.sanitizer.bypassSecurityTrustUrl(self.urlOrign);
         //console.log("self.url", self.url);
       },
-      error => { console.log(error)}
+      error => { 
+        this.text = "n/a"
+        console.log(error)
+      }
     )
 
   }

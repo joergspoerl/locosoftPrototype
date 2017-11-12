@@ -1,4 +1,4 @@
 <div>
-    <img [src]="url">
-    <button *ngIf="upload" ion-button block color="secondary" (click)="getImage()">Select Image</button>    
+    <img [src]="url" *ngIf="!text">
+    <div *ngIf="text">{{text}}</div>
 </div>
