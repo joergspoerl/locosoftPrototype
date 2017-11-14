@@ -10,7 +10,14 @@ import { NgProgress } from 'ngx-progressbar';
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
 
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
+import { of }         from 'rxjs/observable/of';
+ 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 import { LoadingController, ToastController } from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -48,6 +55,9 @@ export class TestPage {
   cameraOptions: CameraOptions;
   blobImageUrl: any;
 
+  searchTerms = new Subject<string>();
+  contact$ : Observable<Contact>;
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -71,8 +81,40 @@ export class TestPage {
 
     this.initTestFileInput()
     this.loadImage();
+
+    this.initSearchBox();
   }
 
+  /* SearchBox ********************************************************/
+
+  initSearchBox() {
+    this.contact$ = this.searchTerms.pipe(
+      // wait 300ms after each keystroke before considering the term
+      debounceTime(300),
+    
+      // ignore new term if same as previous term
+      distinctUntilChanged(),
+    
+      // switch to new search observable each time the term changes
+      switchMap((term: string) => {
+        console.log("SearchBackend: ", term);
+        //this.heroService.searchHeroes(term)}),
+        }
+      )
+    );
+  }
+
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    this.searchTerms.next(term);
+  }
+
+
+  /* SearchBox ********************************************************/
+
+
+
+  /* Toast Tests ********************************************************/
   showSuccess() {
     this.toastr.success('You are awesome!', 'Success!');
   }
@@ -93,15 +135,9 @@ export class TestPage {
     console.log("showCustom")
     this.toastr.custom('<span style="color: red">Message in red.</span>', null, { enableHTML: true });
   }
+  /* Toast Tests ********************************************************/
 
-  testLoading() {
-    //    this.loadingProvider.testLoading("Test")
-  }
-
-  hide() {
-    //    this.loadingProvider.hide(null)
-  }
-
+  /* Progress Tests ********************************************************/
   startProgress() {
     this.ngProgress.start();
   }
@@ -109,6 +145,7 @@ export class TestPage {
   doneProgress() {
     this.ngProgress.done();
   }
+  /* Toast Tests ********************************************************/
 
   randomizePicture() {
     this.contactGeneratorProvider.randomizePicture();
@@ -349,102 +386,7 @@ export class TestPage {
     toast.present();
   }
 
-  getImage() {
-    this.cameraOptions  = {
-      quality: 100,
-      //destinationType: this.camera.DestinationType.FILE_URI,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      targetWidth: 500,
-      targetHeight: 500
-    }
   
-    this.camera.getPicture(this.cameraOptions).then((imageData) => {
-
-      //console.lo
-
-      //window.resolveLocalFileSystemURL(imageData, function success(fileEntry) {
-
-      //}
-        
-      this.base64 = "data:image/jpeg;base64," + imageData;
-      this.imageURI = imageData;
-
-      console.log("imageData", JSON.stringify(imageData));
-
-      var blob = b64toBlob(imageData, 'image/png', 512);
-      this.blobImageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob))
-
-      console.log("blobImageUrl", JSON.stringify(this.blobImageUrl));
-      
-      this.contactProvider.dbLocal.get('2017-11-08T12:13:16.295Z').then(
-        (contact:any) => {
-          console.log("contact: ", contact);
-          this.contactProvider.putPicture(contact, blob);
-          console.log("putPicture", JSON.stringify({contact: contact, blob: blob}));
-          
-        },
-        error => console.log("Error: ", error)
-      )
-      
-    }, (err) => {
-      console.log(err);
-      this.presentToast(err);
-    });
-
-    // from https://stackoverflow.com/questions/16245767/creating-a-blob-from-a-base64-string-in-javascript
-    function b64toBlob(b64Data, contentType, sliceSize) {
-      contentType = contentType || '';
-      sliceSize = sliceSize || 512;
-    
-      var byteCharacters = atob(b64Data);
-      var byteArrays = [];
-    
-      for (var offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-        var slice = byteCharacters.slice(offset, offset + sliceSize);
-    
-        var byteNumbers = new Array(slice.length);
-        for (var i = 0; i < slice.length; i++) {
-          byteNumbers[i] = slice.charCodeAt(i);
-        }
-    
-        var byteArray = new Uint8Array(byteNumbers);
-    
-        byteArrays.push(byteArray);
-      }
-    
-      var blob = new Blob(byteArrays, {type: contentType});
-      return blob;
-    }
-  }
-
-  uploadFile() {
-    let loader = this.loadingCtrl.create({
-      content: "Uploading..."
-    });
-    loader.present();
-    const fileTransfer: FileTransferObject = this.transfer.create();
-  
-    let options: FileUploadOptions = {
-      fileKey: 'ionicfile',
-      fileName: 'ionicfile',
-      chunkedMode: false,
-      mimeType: "image/jpeg",
-      headers: {}
-    }
-  
-    fileTransfer.upload(this.imageURI, 'http://192.168.0.7:8080/api/uploadImage', options)
-      .then((data) => {
-      console.log(data+" Uploaded Successfully");
-      this.imageFileName = "http://192.168.0.7:8080/static/images/ionicfile.jpg"
-      loader.dismiss();
-      this.presentToast("Image uploaded successfully");
-    }, (err) => {
-      console.log(err);
-      loader.dismiss();
-      this.presentToast(err);
-    });
-  }
 
 
 }
