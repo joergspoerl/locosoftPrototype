@@ -10,7 +10,10 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { CarSearchPage } from '../pages/car-search/car-search'
 import { AppSettingsPage } from '../pages/app-settings/app-settings'
+
 import { ContactPage } from '../pages/contact/contact'
+import { Contact2Page } from '../pages/contact2/contact2'
+
 import { ContactDetailsPage } from '../pages/contact-details/contact-details'
 import { TestPage } from '../pages/test/test'
 
@@ -50,6 +53,7 @@ import { Camera } from '@ionic-native/camera';
     CarSearchPage,
     AppSettingsPage,
     ContactPage,
+    Contact2Page,
     ContactDetailsPage,
     GoogleMapsPage,
     SearchPipe,
@@ -72,6 +76,7 @@ import { Camera } from '@ionic-native/camera';
     CarSearchPage,
     AppSettingsPage,
     ContactPage,
+    Contact2Page,    
     ContactDetailsPage,
     GoogleMapsPage,
     TestPage

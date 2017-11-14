@@ -4,10 +4,12 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
+import { Contact2Page } from '../pages/contact2/contact2';
 import { TestPage } from '../pages/test/test';
 import { ListPage } from '../pages/list/list';
 
 import { ToastsManager, ToastOptions } from 'ng2-toastr/ng2-toastr';
+import { Contact2PageModule } from '../pages/contact2/contact2.module';
 
 
 @Component({
@@ -35,7 +37,8 @@ export class MyApp {
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage }
+      { title: 'List', component: ListPage },
+      { title: 'Contact2', component: Contact2Page },
     ];
 
   }
@@ -54,7 +57,7 @@ export class MyApp {
       console.log("is_webapp", this.platform.is('webapp'));
       
       // go for development to test page
-      this.nav.push(TestPage);
+      this.nav.push(Contact2Page);
     });
   }
 

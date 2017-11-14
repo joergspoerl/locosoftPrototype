@@ -10,14 +10,6 @@ import { NgProgress } from 'ngx-progressbar';
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
 
-import { Observable } from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
-import { of }         from 'rxjs/observable/of';
- 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
 
 import { LoadingController, ToastController } from 'ionic-angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer';
@@ -58,10 +50,6 @@ export class TestPage {
   cameraOptions: CameraOptions;
   blobImageUrl: any;
 
-  searchTerms = new Subject<string>();
-  contact$ : Observable<Contact>;
-  contacts : Contact[];
-  contactsLimit: number = 10;
 
   constructor(
     public navCtrl: NavController,
@@ -88,49 +76,7 @@ export class TestPage {
 
     this.initTestFileInput()
     this.loadImage();
-
-    this.initSearchBox();
   }
-
-  /* SearchBox ********************************************************/
-
-  initSearchBox() {
-    let allContacts;
-    this.contactProvider.getAllContacts('contact-generated').then(
-      result => {
-        console.log("result: ", result)
-        allContacts = result.docs;
-        console.log("allContacts: ", allContacts)
-
-        this.searchTerms
-        .debounceTime(100)
-        .distinctUntilChanged()
-        .subscribe(
-          event => {
-            console.log("event: ", event);
-            let afterSearchPipe = this.searchPipe.transform(allContacts,'name, adress', event);
-            this.contactsLimit = 10;
-            this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
-            console.log("after Pipe: ", this.contacts);
-          }
-        )
-    
-      }
-    )
-  }
-
-  doInfinite (event) {
-    this.contactsLimit = this.contactsLimit + 10;
-    console.log("contactLimit: ", this.contactsLimit)
-    event.complete();
-  }
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
-
-  /* SearchBox ********************************************************/
 
 
 
