@@ -22,9 +22,40 @@
         </ion-card-header>
 
         <ion-card-content>
-                <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+            <input #searchBox id="search-box" (keyup)="search(searchBox.value)" />
+            <div style="height:400px;overflow-y:auto">
+                <ion-list>
+                    <ion-item *ngFor="let contact of contacts">
+                        <button ion-item (click)="gotoContactDetails(contact)">
+
+                            <ion-avatar item-start>
+                                <contact-picture [contactId]="contact._id" [contactRev]="contact._rev"></contact-picture>
+                            </ion-avatar>
+                            <!-- <h6>{{contact._id}}</h6>
+                                         -->
+                            <h1>{{contact.name}}</h1>
+                            <h2>{{contact.phone}}</h2>
+                            <h3>{{contact.address}}</h3>
+                        </button>
+                        <ion-item-options side="right">
+                            <button ion-button expandable (click)="showContactMap(contact)">
+                                <ion-icon name="globe"></ion-icon>&nbsp;Karte
+                            </button>
+                            <button ion-button expandable (click)="remove(contact)">
+                                <ion-icon name="trash"></ion-icon>&nbsp;Löschen
+                            </button>
+                        </ion-item-options>
+                    </ion-item>
+
+                    <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+                        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+                    </ion-infinite-scroll>
+                </ion-list>
+
+                     
+            </div>
         </ion-card-content>
-            
+
     </ion-card>
 
 
@@ -145,15 +176,15 @@
             </button>
 
             <button ion-button block (click)="deleteContactAttachments()">
-                    deleteContactAttachments
+                deleteContactAttachments
             </button>
 
             <button ion-button block (click)="getAllContactsWithPictureSubscribe()">
-                    getAllContactsWithPictureSubscribe
+                getAllContactsWithPictureSubscribe
             </button>
 
             <img #OutputImage id="OutputImage">
-            
+
         </ion-card-content>
     </ion-card>
 
@@ -172,15 +203,13 @@
                 2
             </button>
 
-        _id = {{_id}} <br>
-        _rev = {{_rev}} <br>
-        
+            _id = {{_id}}
+            <br> _rev = {{_rev}}
+            <br> ---
+            <contact-picture [contactId]="_id" [contactRev]="_rev"></contact-picture>
+        </ion-card-content>
         ---
-            <contact-picture [contactId]="_id" 
-                             [contactRev]="_rev"></contact-picture>
-            </ion-card-content>
-        ---
-            
+
     </ion-card>
 
 

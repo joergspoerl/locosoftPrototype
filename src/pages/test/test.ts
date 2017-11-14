@@ -24,6 +24,9 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { DomSanitizer } from '@angular/platform-browser'
 
+import { SearchPipe } from '../../pipe/searchPipe'
+import { SlicePipe } from '@angular/common';
+
 /**
  * Generated class for the TestPage page.
  *
@@ -57,6 +60,8 @@ export class TestPage {
 
   searchTerms = new Subject<string>();
   contact$ : Observable<Contact>;
+  contacts : Contact[];
+  contactsLimit: number = 10;
 
   constructor(
     public navCtrl: NavController,
@@ -72,6 +77,8 @@ export class TestPage {
     public loadingCtrl: LoadingController,
     public toastCtrl: ToastController,
     private sanitizer: DomSanitizer,
+    private searchPipe: SearchPipe,
+    private slicePipe: SlicePipe
     
   ) {
   }
@@ -88,22 +95,35 @@ export class TestPage {
   /* SearchBox ********************************************************/
 
   initSearchBox() {
-    this.contact$ = this.searchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
+    let allContacts;
+    this.contactProvider.getAllContacts('contact-generated').then(
+      result => {
+        console.log("result: ", result)
+        allContacts = result.docs;
+        console.log("allContacts: ", allContacts)
+
+        this.searchTerms
+        .debounceTime(100)
+        .distinctUntilChanged()
+        .subscribe(
+          event => {
+            console.log("event: ", event);
+            let afterSearchPipe = this.searchPipe.transform(allContacts,'name, adress', event);
+            this.contactsLimit = 10;
+            this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
+            console.log("after Pipe: ", this.contacts);
+          }
+        )
     
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-    
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => {
-        console.log("SearchBackend: ", term);
-        //this.heroService.searchHeroes(term)}),
-        }
-      )
-    );
+      }
+    )
   }
 
+  doInfinite (event) {
+    this.contactsLimit = this.contactsLimit + 10;
+    console.log("contactLimit: ", this.contactsLimit)
+    event.complete();
+  }
   // Push a search term into the observable stream.
   search(term: string): void {
     this.searchTerms.next(term);

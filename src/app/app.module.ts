@@ -24,6 +24,7 @@ import { CustomOption } from '../providers/toastMessage/custom-options'
 import { ToastOptions } from 'ng2-toastr'
 
 import { SearchPipe } from '../pipe/searchPipe'
+import { SlicePipe } from '@angular/common';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -88,7 +89,9 @@ import { Camera } from '@ionic-native/camera';
     FileTransfer,
     FileTransferObject,
     File,
-    Camera
+    Camera,
+    SearchPipe,
+    SlicePipe
   ]
 })
 export class AppModule {}
