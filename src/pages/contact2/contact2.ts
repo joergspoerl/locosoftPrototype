@@ -3,11 +3,12 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
+import { ContactDetailsPage } from '../contact-details/contact-details'
+import { GoogleMapsPage } from '../google-maps/google-maps'
 
 import { Observable } from 'rxjs/Observable';
 import { Subject }    from 'rxjs/Subject';
-import { of }         from 'rxjs/observable/of';
- 
+import { of }         from 'rxjs/observable/of'; 
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
@@ -31,11 +32,13 @@ import { SlicePipe } from '@angular/common';
 })
 export class Contact2Page {
 
-  searchBoxModel: string;
+  searchTerm: string;
   searchTerms = new Subject<string>();
   contact$ : Observable<Contact>;
   contacts : Contact[];
   allContacts : Contact[];
+
+  page: number = 10;
 
 
   contactsLimit: number = 10;
@@ -66,8 +69,8 @@ export class Contact2Page {
 
         console.log("allContacts: ",  this.allContacts)
 
-        this.contactsLimit = 10;            
-        this.load(this.searchBoxModel);
+        this.contactsLimit = this.page;            
+        this.load(this.searchTerm);
 
         this.searchTerms
         .debounceTime(100)
@@ -75,7 +78,8 @@ export class Contact2Page {
         .subscribe(
           searchTerm => {
             console.log("searchTerm: ", searchTerm);
-            this.contactsLimit = 10;            
+            this.searchTerm = searchTerm;
+            this.contactsLimit = this.page;            
             this.load(searchTerm);
           }
         )
@@ -85,6 +89,7 @@ export class Contact2Page {
   }
 
   load (searchTerm) {
+    console.log("searchTerm", searchTerm)
     let afterSearchPipe = this.searchPipe.transform( this.allContacts,'name, adress', searchTerm);
     this.searchCount = afterSearchPipe.length
     this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
@@ -93,15 +98,54 @@ export class Contact2Page {
 
 
   doInfinite (event) {
-    this.contactsLimit = this.contactsLimit + 10;
+    if (this.contactsLimit <= this.searchCount - this.page)
+    this.contactsLimit = this.contactsLimit + this.page;
     console.log("contactLimit: ", this.contactsLimit);
-    this.load (this.searchBoxModel);
+    this.load(this.searchTerm);
 
     event.complete();
   }
   // Push a search term into the observable stream.
   search(term: string): void {
     this.searchTerms.next(term);
+  }
+
+
+
+  gotoContactDetails(contact) {
+    this.navCtrl.push(ContactDetailsPage, { 'contact' : contact });
+  }
+
+  showMap() {
+    var markers = [];
+    for (let entry of this.contacts) {
+      markers.push({ 
+        lat: Number.parseFloat(entry.latitude), 
+        lng: Number.parseFloat(entry.longitude)})      
+    }
+    console.log("markers", markers)
+    this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
+  }
+
+  showContactMap(contact) {
+    this.navCtrl.push(GoogleMapsPage, { 'latLngArray' : [{ lat: contact.latitude, lng: contact.longitude}]});    
+  }
+
+
+  add() {
+    console.log("add")
+    this.navCtrl.push(ContactDetailsPage, { 'contact' : new Contact() });
+  }
+
+  remove(contact:Contact) {
+    this.contactProvider.remove(contact).then(
+      ok => {
+        this.initSearchBox();
+      },
+      er => {
+        console.log("Error: ", er);
+      }
+    );   
   }
 
 }

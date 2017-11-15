@@ -19,6 +19,14 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { SearchPipe } from '../../pipe/searchPipe'
 import { SlicePipe } from '@angular/common';
 
+import { Observable } from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
+import { of }         from 'rxjs/observable/of'; 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
 /**
  * Generated class for the TestPage page.
  *

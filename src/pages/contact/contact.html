@@ -6,26 +6,15 @@
     </ion-title>
 
     <ion-buttons end>
-      <!-- <button ion-button icon-only (click)="getAllContacts()">
-        <ion-icon name="refresh"></ion-icon>
-      </button> -->
 
       <button ion-button (click)="showMap()">
         <ion-icon name="globe"></ion-icon>&nbsp;Karte
       </button>
 
-      <!-- <button ion-button icon-only (click)="destroy()">
-        <ion-icon name="trash"></ion-icon>
-      </button> -->
-      <!-- <button ion-button icon-only (click)="import()">
-        <ion-icon name="code-download"></ion-icon>
-      </button> -->
-      <!-- <button ion-button icon-only (click)="sync()">
-        <ion-icon name="sync"></ion-icon>
-      </button> -->
       <button ion-button (click)="add()">
         <ion-icon name="person-add"></ion-icon>&nbsp;Neu
       </button>
+
     </ion-buttons>
 
   </ion-navbar>
@@ -87,10 +76,5 @@
         {{typeShort}}
       </div>
     
-      <!-- <ion-select  [(ngModel)]="type"  (ngModelChange)="search($event)">
-        <ion-option value="contact-generated">generated</ion-option>
-        <ion-option value="contact-example">manual</ion-option>
-      </ion-select> -->
-
   </div>
 </ion-footer>

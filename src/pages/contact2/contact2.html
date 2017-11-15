@@ -6,15 +6,20 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Contact 2</ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="showMap()">
+        <ion-icon name="globe"></ion-icon>&nbsp;Karte
+      </button>
+      <button ion-button (click)="add()">
+        <ion-icon name="person-add"></ion-icon>&nbsp;Neu
+      </button>
+    </ion-buttons>
   </ion-navbar>
-
+      
   <ion-navbar>
-      <input #searchBox id="search-box" [ngModel]="searchBoxModel" (keyup)="search(searchBox.value)" />      
-      <button ion-button color="light" small>{{searchCount}}</button>
-      <button ion-button color="light" small>{{contactsLimit}}</button>
-      <button ion-button color="light" small>{{allContactsLength}}</button>
+      <input class="text-input-md text-input" #searchBox id="search-box" [ngModel]="searchBoxModel" (keyup)="search(searchBox.value)" placeholder="Search ..." />      
     </ion-navbar>
 </ion-header>
 
@@ -49,5 +54,26 @@
     </ion-infinite-scroll>
   </ion-list>
 
-
 </ion-content>
+
+<ion-footer>
+    <div class="bottom_bar">
+
+      <div class="bottom_info" *ngIf="searchCount">
+          # {{ searchCount }}
+        </div>
+  
+        <div class="bottom_info" *ngIf="allContactsLength">
+            total: {{ allContactsLength }}
+        </div>
+
+        <div class="bottom_info" *ngIf="contactsLimit">
+            Limit: {{ contactsLimit }}
+        </div>
+    
+        <div class="bottom_info" (click)="clickChangeType()">
+          {{typeShort}}
+        </div>
+      
+    </div>
+  </ion-footer>
