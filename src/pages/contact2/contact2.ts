@@ -120,8 +120,8 @@ export class Contact2Page {
     var markers = [];
     for (let entry of this.contacts) {
       markers.push({ 
-        lat: Number.parseFloat(entry.latitude), 
-        lng: Number.parseFloat(entry.longitude)})      
+        lat: Number.parseFloat(entry.latitude as any), 
+        lng: Number.parseFloat(entry.longitude as any)})      
     }
     console.log("markers", markers)
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
