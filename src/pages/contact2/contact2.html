@@ -12,7 +12,10 @@
 
   <ion-navbar>
       <input #searchBox id="search-box" [ngModel]="searchBoxModel" (keyup)="search(searchBox.value)" />      
-  </ion-navbar>
+      <button ion-button color="light" small>{{searchCount}}</button>
+      <button ion-button color="light" small>{{contactsLimit}}</button>
+      <button ion-button color="light" small>{{allContactsLength}}</button>
+    </ion-navbar>
 </ion-header>
 
 

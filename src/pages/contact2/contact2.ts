@@ -35,8 +35,12 @@ export class Contact2Page {
   searchTerms = new Subject<string>();
   contact$ : Observable<Contact>;
   contacts : Contact[];
-  allContacts : Contact[];  
+  allContacts : Contact[];
+
+
   contactsLimit: number = 10;
+  searchCount: number;
+  allContactsLength: number;
 
   constructor(
     public navCtrl: NavController, 
@@ -58,6 +62,8 @@ export class Contact2Page {
       result => {
         console.log("result: ", result)
         this.allContacts = result.docs as Contact[];
+        this.allContactsLength = this.allContacts.length;
+
         console.log("allContacts: ",  this.allContacts)
 
         this.contactsLimit = 10;            
@@ -69,6 +75,7 @@ export class Contact2Page {
         .subscribe(
           searchTerm => {
             console.log("searchTerm: ", searchTerm);
+            this.contactsLimit = 10;            
             this.load(searchTerm);
           }
         )
@@ -79,6 +86,7 @@ export class Contact2Page {
 
   load (searchTerm) {
     let afterSearchPipe = this.searchPipe.transform( this.allContacts,'name, adress', searchTerm);
+    this.searchCount = afterSearchPipe.length
     this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
     console.log("after Pipe: ", this.contacts);
   }
