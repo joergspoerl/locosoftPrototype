@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+
+import { List } from 'ionic-angular';
 
 import { ContactProvider, Contact } from '../../providers/contact/contact';
 import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
@@ -31,7 +33,8 @@ import { SlicePipe } from '@angular/common';
   templateUrl: 'contact2.html',
 })
 export class Contact2Page {
-
+  @ViewChild(List) list: List;
+  
   searchTerm: string;
   searchTerms = new Subject<string>();
   contact$ : Observable<Contact>;
@@ -111,11 +114,6 @@ export class Contact2Page {
   }
 
 
-
-  gotoContactDetails(contact) {
-    this.navCtrl.push(ContactDetailsPage, { 'contact' : contact });
-  }
-
   showMap() {
     var markers = [];
     for (let entry of this.contacts) {
@@ -127,25 +125,20 @@ export class Contact2Page {
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
   }
 
-  showContactMap(contact) {
-    this.navCtrl.push(GoogleMapsPage, { 'latLngArray' : [{ lat: contact.latitude, lng: contact.longitude}]});    
-  }
-
 
   add() {
     console.log("add")
     this.navCtrl.push(ContactDetailsPage, { 'contact' : new Contact() });
   }
 
-  remove(contact:Contact) {
-    this.contactProvider.remove(contact).then(
-      ok => {
-        this.initSearchBox();
-      },
-      er => {
-        console.log("Error: ", er);
-      }
-    );   
+  removeClick(removedContact:Contact) {
+    console.log("removedContact", removedContact)
+    let index = this.contacts.findIndex(
+      (element) => {
+        return element._id == removedContact._id}
+    )
+    console.log("index", index);
+    this.contacts.splice(index,1);
+    
   }
-
 }

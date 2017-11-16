@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 import { HomePage } from '../pages/home/home';
 import { Contact2Page } from '../pages/contact2/contact2';
+import { Contact3Page } from '../pages/contact3/contact3';
 import { TestPage } from '../pages/test/test';
 import { ListPage } from '../pages/list/list';
 
@@ -39,6 +40,7 @@ export class MyApp {
       { title: 'Home', component: HomePage },
       { title: 'List', component: ListPage },
       { title: 'Contact2', component: Contact2Page },
+      { title: 'Contact3', component: Contact3Page },
     ];
 
   }
@@ -57,7 +59,7 @@ export class MyApp {
       console.log("is_webapp", this.platform.is('webapp'));
       
       // go for development to test page
-      // this.nav.push(Contact2Page);
+      this.nav.push(Contact3Page);
     });
   }
 

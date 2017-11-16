@@ -1,0 +1,28 @@
+<!-- Generated template for the ContactListItemComponent component -->
+<ion-item-sliding #item>
+  <button ion-item (click)="gotoContactDetails(contact)">
+
+    <ion-avatar item-start>
+      <contact-picture [contactId]="contact._id" [contactRev]="contact._rev"></contact-picture>
+    </ion-avatar>
+    <!-- <h6>{{contact._id}}</h6>
+                               -->
+    <h1>{{contact.name}}</h1>
+    <h2>{{contact.phone}}</h2>
+    <h3>{{contact.address}}</h3>
+  </button>
+  <ion-item-options side="left">
+    <button ion-button expandable (click)="remove(contact)">
+      <ion-icon name="trash"></ion-icon>&nbsp;Löschen
+    </button>
+  </ion-item-options>
+
+  <ion-item-options side="right">
+    <button ion-button expandable (click)="showMap(contact)">
+      <ion-icon name="globe"></ion-icon>&nbsp;Karte
+    </button>
+    <button ion-button expandable (click)="call(contact)">
+      <ion-icon name="call"></ion-icon>&nbsp;Anrufen
+    </button>
+  </ion-item-options>
+</ion-item-sliding>

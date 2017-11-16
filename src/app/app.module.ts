@@ -13,6 +13,7 @@ import { AppSettingsPage } from '../pages/app-settings/app-settings'
 
 import { ContactPage } from '../pages/contact/contact'
 import { Contact2Page } from '../pages/contact2/contact2'
+import { Contact3Page } from '../pages/contact3/contact3'
 
 import { ContactDetailsPage } from '../pages/contact-details/contact-details'
 import { TestPage } from '../pages/test/test'
@@ -54,6 +55,7 @@ import { Camera } from '@ionic-native/camera';
     AppSettingsPage,
     ContactPage,
     Contact2Page,
+    Contact3Page,        
     ContactDetailsPage,
     GoogleMapsPage,
     SearchPipe,
@@ -77,6 +79,7 @@ import { Camera } from '@ionic-native/camera';
     AppSettingsPage,
     ContactPage,
     Contact2Page,    
+    Contact3Page,    
     ContactDetailsPage,
     GoogleMapsPage,
     TestPage
