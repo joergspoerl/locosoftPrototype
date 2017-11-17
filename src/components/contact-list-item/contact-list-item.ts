@@ -9,6 +9,8 @@ import { ItemSliding } from 'ionic-angular/components/item/item-sliding';
 import { ContactDetailsPage } from '../../pages/contact-details/contact-details'
 import { GoogleMapsPage } from '../../pages/google-maps/google-maps'
 
+declare var plugins;
+
 /**
  * Generated class for the ContactListItemComponent component.
  *
@@ -61,6 +63,22 @@ export class ContactListItemComponent {
 
   call () {
     this.item.close();
+    
+    if (plugins) {
+      console.log("plugins", plugins);
+      if (plugins.CallNumber) {
+        plugins.CallNumber.callNumber(
+          onSuccess => {
+            console.log("CallNumber: ", onSuccess)
+          },
+          onError   => {
+            console.log("CallNumber Error: ", onError)
+          },
+          this.contact.phone,
+          true
+        )
+      }
+    }
   }
 
 }
