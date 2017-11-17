@@ -111,25 +111,14 @@ export class ContactPage {
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
   }
 
-  showContactMap(contact) {
-    this.navCtrl.push(GoogleMapsPage, { 'latLngArray' : [{ lat: contact.latitude, lng: contact.longitude}]});    
-  }
-
 
   add() {
     console.log("add")
     this.navCtrl.push(ContactDetailsPage, { 'contact' : new Contact() });
   }
 
-  remove(contact:Contact) {
-    this.contactProvider.remove(contact).then(
-      ok => {
-        this.getAllContacts();
-      },
-      er => {
-        console.log("Error: ", er);
-      }
-    );   
+  removeClick(contact:Contact) {
+    this.getAllContacts();
   }
 
 

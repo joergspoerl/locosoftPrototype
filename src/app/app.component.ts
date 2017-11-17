@@ -59,7 +59,7 @@ export class MyApp {
       console.log("is_webapp", this.platform.is('webapp'));
       
       // go for development to test page
-      this.nav.push(Contact3Page);
+      //this.nav.push(Contact3Page);
     });
   }
 
