@@ -93,10 +93,21 @@ export class Contact3Page {
 
   load (searchTerm) {
     console.log("searchTerm", searchTerm)
-    let afterSearchPipe = this.searchPipe.transform( this.allContacts,'name, adress', searchTerm);
-    this.searchCount = afterSearchPipe.length
-    this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
-    console.log("after Pipe: ", this.contacts);
+
+    let search = {
+      query: 'Baldur',
+      fields: ['name', 'adress'],
+      include_docs: true
+    };
+
+    this.contactProvider.getContactsSearch (search).then(
+      result => {
+        this.contacts = result.docs;
+        console.log("result: ", result);
+      }
+    )        
+    
+
   }
 
 
