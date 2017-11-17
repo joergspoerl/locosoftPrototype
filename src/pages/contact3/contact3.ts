@@ -95,12 +95,10 @@ export class Contact3Page {
     console.log("searchTerm", searchTerm)
 
     let search = {
-      query: 'Baldur',
-      fields: ['name', 'adress'],
-      include_docs: true
-    };
+      // fyi: can't use indexing with regex selector :/
+      selector: {name: {$regex: new RegExp('.*' + searchTerm + '.*', 'i')}}};
 
-    this.contactProvider.getContactsSearch (search).then(
+    this.contactProvider.dbLocal.find(search).then(
       result => {
         this.contacts = result.docs;
         console.log("result: ", result);
