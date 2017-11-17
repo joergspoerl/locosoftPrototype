@@ -30,7 +30,7 @@ export class ContactListItemComponent {
     private contactProvider: ContactProvider,
     private navCtrl: NavController,
   ) {
-    console.log('Hello ContactListItemComponent Component');
+    //console.log('Hello ContactListItemComponent Component');
   }
 
   gotoContactDetails(contact) {
