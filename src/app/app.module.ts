@@ -44,6 +44,8 @@ import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-nati
 import { File } from '@ionic-native/file';
 import { Camera } from '@ionic-native/camera';
 
+import { VirtualScrollModule } from 'angular2-virtual-scroll';
+
 
 
 @NgModule({
@@ -68,7 +70,8 @@ import { Camera } from '@ionic-native/camera';
     ComponentsModule,
     BrowserAnimationsModule,
     ToastModule.forRoot(),
-    NgProgressModule
+    NgProgressModule,
+    VirtualScrollModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

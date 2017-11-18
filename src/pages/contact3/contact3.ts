@@ -1,134 +1,119 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-import { List } from 'ionic-angular';
-
+import { NavController } from 'ionic-angular';
 import { ContactProvider, Contact } from '../../providers/contact/contact';
-import { ContactGeneratorProvider } from '../../providers/contact-generator/contact-generator';
 import { ContactDetailsPage } from '../contact-details/contact-details'
 import { GoogleMapsPage } from '../google-maps/google-maps'
-
+//import { ToastMessageProvider } from '../../providers/toastMessage/toastMessage'
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { NgProgress } from 'ngx-progressbar';
+import { DomSanitizer } from '@angular/platform-browser'
 import { Observable } from 'rxjs/Observable';
-import { Subject }    from 'rxjs/Subject';
-import { of }         from 'rxjs/observable/of'; 
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/debounceTime';
-import 'rxjs/add/operator/distinctUntilChanged';
-import 'rxjs/add/operator/switchMap';
 
-import { SearchPipe } from '../../pipe/searchPipe'
-import { SlicePipe } from '@angular/common';
+import { VirtualScrollComponent } from 'angular2-virtual-scroll';
 
 
-/**
- * Generated class for the Contact2Page page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
-@IonicPage()
 @Component({
   selector: 'page-contact3',
-  templateUrl: 'contact3.html',
+  templateUrl: 'contact3.html'
 })
 export class Contact3Page {
-  @ViewChild(List) list: List;
+
+  @ViewChild(VirtualScrollComponent)
+  private virtualScroll: VirtualScrollComponent;
+
+  liveSync: any;
+
+  contacts: any[] = [];
+  contacts_total_rows: number;
+  replication_info: string;
   
-  searchTerm: string;
-  searchTerms = new Subject<string>();
-  contact$ : Observable<Contact>;
-  contacts : Contact[];
-  allContacts : Contact[];
+  toastSubscription: any;
 
-  page: number = 10;
-
-
-  contactsLimit: number = 10;
-  searchCount: number;
-  allContactsLength: number;
+  type: ContactType = new ContactType();
+  typeShort: string;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams,
-    private searchPipe: SearchPipe,
-    private slicePipe: SlicePipe,
+    public navCtrl: NavController,
     public contactProvider: ContactProvider,
+    //public toastMessageProvider: ToastMessageProvider,
+    public toastsManager: ToastsManager,
+    public ngProgress: NgProgress,
+    private sanitizer: DomSanitizer,
     
-) {
+  ) {
+
+        
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad Contact3Page');
-    this.initSearchBox();
   }
 
-  initSearchBox() {
-    this.contactProvider.getAllContacts('contact-generated').then(
-      result => {
-        console.log("result: ", result)
-        this.allContacts = result.docs as Contact[];
-        this.allContactsLength = this.allContacts.length;
-
-        console.log("allContacts: ",  this.allContacts)
-
-        this.contactsLimit = this.page;            
-        this.load(this.searchTerm);
-
-        this.searchTerms
-        .debounceTime(100)
-        .distinctUntilChanged()
-        .subscribe(
-          searchTerm => {
-            console.log("searchTerm: ", searchTerm);
-            this.searchTerm = searchTerm;
-            this.contactsLimit = this.page;            
-            this.load(searchTerm);
-          }
-        )
+  ionViewDidEnter() {
+    this.typeShort = this.type.getTypeShort();
+    this.getAllContacts();
+    this.getTotalRows();
     
+    this.liveSync = this.contactProvider.liveSync().subscribe(
+      replication => {
+        console.log('replication: ', replication)
+        this.replication_info = replication['replication_percent'];
+      }
+    )
+
+
+  }
+
+  ionViewDidLeave() {
+   this.liveSync.unsubscribe();     
+  }
+
+
+  getAllContacts() {
+    this.ngProgress.start();
+    this.contactProvider.getAllContacts(this.type.getType()).then(
+
+      result => {
+        this.contacts = result.docs
+        this.virtualScroll.refresh();
+
+        console.log("this.contacts", this.contacts)
+        this.ngProgress.done();
+
+        //this.startLiveSync();
+      },
+
+      error => {
+        console.log("error", error)
+        this.ngProgress.done();
       }
     )
   }
 
-  load (searchTerm) {
-    console.log("searchTerm", searchTerm)
 
-    let search = {
-      // fyi: can't use indexing with regex selector :/
-      selector: {name: {$regex: new RegExp('.*' + searchTerm + '.*', 'i')}}};
+  
 
-    this.contactProvider.dbLocal.find(search).then(
-      result => {
-        this.contacts = result.docs;
-        console.log("result: ", result);
-      }
-    )        
-    
+  search($event) {
+    this.getAllContacts();
+  }
 
+  clickChangeType() {
+    this.type.next()
+    this.typeShort = this.type.getTypeShort();
+    this.getAllContacts();
   }
 
 
-  doInfinite (event) {
-    if (this.contactsLimit <= this.searchCount - this.page)
-    this.contactsLimit = this.contactsLimit + this.page;
-    console.log("contactLimit: ", this.contactsLimit);
-    this.load(this.searchTerm);
 
-    event.complete();
+  gotoContactDetails(contact) {
+    this.navCtrl.push(ContactDetailsPage, { 'contact' : contact });
   }
-  // Push a search term into the observable stream.
-  search(term: string): void {
-    this.searchTerms.next(term);
-  }
-
 
   showMap() {
     var markers = [];
     for (let entry of this.contacts) {
       markers.push({ 
-        lat: Number.parseFloat(entry.latitude as any), 
-        lng: Number.parseFloat(entry.longitude as any)})      
+        lat: Number.parseFloat(entry.latitude), 
+        lng: Number.parseFloat(entry.longitude)})      
     }
     console.log("markers", markers)
     this.navCtrl.push(GoogleMapsPage, { 'latLngArray': markers });
@@ -140,14 +125,43 @@ export class Contact3Page {
     this.navCtrl.push(ContactDetailsPage, { 'contact' : new Contact() });
   }
 
-  removeClick(removedContact:Contact) {
-    console.log("removedContact", removedContact)
-    let index = this.contacts.findIndex(
-      (element) => {
-        return element._id == removedContact._id}
-    )
-    console.log("index", index);
-    this.contacts.splice(index,1);
-    
+  removeClick(contact:Contact) {
+    this.getAllContacts();
   }
+
+
+
+
+
+  getTotalRows() {
+    this.contactProvider.getTotalRows().then(
+      result => {
+        this.contacts_total_rows = result.total_rows;
+      }
+    )
+
+  }
+
+}
+
+
+export class ContactType {
+  type:number = 0;
+  types: string[]      = ['contact-example','contact-generated'];
+  typesShort: string[] = ['example','generated'];
+
+  next() {
+    this.type++;
+    if (this.type >= this.types.length)
+        this.type = 0;
+  }
+
+  getType () {
+    return this.types[this.type]
+  }
+  getTypeShort () {
+    console.log("getTypeShort")
+    return this.typesShort[this.type]
+  }
+
 }
