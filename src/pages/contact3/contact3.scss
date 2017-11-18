@@ -4,9 +4,13 @@ page-contact3 {
         width: 100%;
         height: 100%;
     }
-    list-item {
+    .list-item {
         display: block;
         width: 100%;
-        height: 95px;
+        // height: 95px;
+    }
+
+    .scroll-content {
+        overflow-y: hidden;
     }
 }

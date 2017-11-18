@@ -29,20 +29,21 @@
   <ion-content>
 
 
-    <!-- <ion-list> -->
       <virtual-scroll [items]="contacts | search:'name,address':query" 
                       (update)="viewPortItems = $event" 
                       [childWidth]="100"
-                      [childHeight]="16">
-          
-        <div class="list-item" *ngFor="let contact of viewPortItems">
-          {{contact.name}}
-          <!-- <contact-list-item [contact]="contact" (removeClick)="removeClick()">
-          </contact-list-item> -->
-        </div>
+                      [childHeight]="95">
+        <ion-list>
+                          
+          <div class="list-item" *ngFor="let contact of viewPortItems">
+            <!-- {{contact.name}} -->
+            <contact-list-item [contact]="contact" (removeClick)="removeClick()">
+            </contact-list-item>
+          </div>
 
+        </ion-list>
+        
       </virtual-scroll>
-    <!-- </ion-list> -->
 
   </ion-content>
   
