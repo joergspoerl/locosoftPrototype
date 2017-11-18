@@ -32,7 +32,7 @@
       <virtual-scroll [items]="contacts | search:'name,address':query" 
                       (update)="viewPortItems = $event" 
                       [childWidth]="100"
-                      [childHeight]="95">
+                      [childHeight]="56">
         <ion-list>
                           
           <div class="list-item" *ngFor="let contact of viewPortItems">
