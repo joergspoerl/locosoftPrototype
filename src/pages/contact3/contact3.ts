@@ -79,7 +79,6 @@ export class Contact3Page {
 
         this.contacts.sort(sort_by('name', false, (s:string)=> {return s.toLowerCase()}));
         this.contacts = Object.assign([], this.contacts)
-        //this.virtualScroll.refresh();
 
         console.log("this.contacts", this.contacts)
         this.ngProgress.done();
@@ -96,11 +95,6 @@ export class Contact3Page {
 
 
   
-
-  search($event) {
-    this.getAllContacts();
-  }
-
   clickChangeType() {
     this.type.next()
     this.typeShort = this.type.getTypeShort();
@@ -206,7 +200,13 @@ export class ContactType {
 
 }
 
-
+/**
+ * Helper function for sorting a array of object 
+ * with specefic field.
+ * @param field to order
+ * @param reverse order direction
+ * @param primer function for field transformation
+ */
 var sort_by = function(field, reverse, primer){
   
      var key = primer ? 

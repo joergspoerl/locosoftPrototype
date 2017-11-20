@@ -29,7 +29,7 @@
   <ion-content>
 
       <!-- | search:'name,address':query -->
-      <virtual-scroll [items]="contacts | search:'name,address':query" 
+      <virtual-scroll [items]="contacts" 
                       (update)="viewPortItems = $event" 
                       [childWidth]="100"
                       [childHeight]="56">
