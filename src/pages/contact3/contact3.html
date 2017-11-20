@@ -28,7 +28,7 @@
   
   <ion-content>
 
-
+      <!-- | search:'name,address':query -->
       <virtual-scroll [items]="contacts | search:'name,address':query" 
                       (update)="viewPortItems = $event" 
                       [childWidth]="100"
@@ -37,7 +37,7 @@
                           
           <div class="list-item" *ngFor="let contact of viewPortItems">
             <!-- {{contact.name}} -->
-            <contact-list-item [contact]="contact" (removeClick)="removeClick()">
+            <contact-list-item [contact]="contact" (removeClick)="removeClick(contact)">
             </contact-list-item>
           </div>
 
@@ -50,11 +50,11 @@
   <ion-footer>
     <div class="bottom_bar">
         
-        <div class="bottom_info" *ngIf="contacts">
+        <div class="bottom_info" *ngIf="contacts"  (click)="testAdd()">
           # {{ contacts.length }}
         </div>
   
-        <div class="bottom_info" *ngIf="contacts_total_rows">
+        <div class="bottom_info" *ngIf="contacts_total_rows" (click)="testRemove()">
             total: {{ contacts_total_rows }}
         </div>
   

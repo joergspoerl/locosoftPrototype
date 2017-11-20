@@ -32,6 +32,8 @@ export class Contact3Page {
   type: ContactType = new ContactType();
   typeShort: string;
 
+  testInterval: any;
+
   constructor(
     public navCtrl: NavController,
     public contactProvider: ContactProvider,
@@ -74,7 +76,10 @@ export class Contact3Page {
 
       result => {
         this.contacts = result.docs
-        this.virtualScroll.refresh();
+
+        this.contacts.sort(sort_by('name', false, (s:string)=> {return s.toLowerCase()}));
+        this.contacts = Object.assign([], this.contacts)
+        //this.virtualScroll.refresh();
 
         console.log("this.contacts", this.contacts)
         this.ngProgress.done();
@@ -126,11 +131,46 @@ export class Contact3Page {
   }
 
   removeClick(contact:Contact) {
-    this.getAllContacts();
+    this.contacts.splice(this.contacts.findIndex(item => {
+      console.log("item: ", item)
+      return item._id == contact._id
+    }), 1);
+    console.log("contacts: ", this.contacts)
+
+    this.contacts = Object.assign([], this.contacts) 
+    //this.getAllContacts();
+  }
+
+  testRemove () {
+
+    if (!this.testInterval) {
+      this.testInterval = setInterval (() => {
+        this.contacts.splice(0,1);
+        this.contacts = Object.assign([], this.contacts) // copy array -> refresh virtual scroll
+        //this.virtualScroll.refresh();
+      }, 100)
+    } else {
+      clearInterval(this.testInterval);
+      this.testInterval = null;
+    }
+
   }
 
 
-
+  testAdd () {
+    
+    if (!this.testInterval) {
+      this.testInterval = setInterval (() => {
+        this.contacts.push({ name: 'Test' + this.contacts.length});
+        this.virtualScroll.refresh();
+      }, 100)
+    } else {
+      clearInterval(this.testInterval);
+      this.testInterval = null;
+    }
+    
+  }
+    
 
 
   getTotalRows() {
@@ -165,3 +205,17 @@ export class ContactType {
   }
 
 }
+
+
+var sort_by = function(field, reverse, primer){
+  
+     var key = primer ? 
+         function(x) {return primer(x[field])} : 
+         function(x) {return x[field]};
+  
+     reverse = !reverse ? 1 : -1;
+  
+     return function (a, b) {
+         return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+       } 
+  }
