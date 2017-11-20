@@ -215,7 +215,7 @@ var sort_by = function(field, reverse, primer){
   
      reverse = !reverse ? 1 : -1;
   
-     return function (a, b) {
-         return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+     return function (a:any, b:any) {
+         return a = key(a), b = key(b), reverse * (((a > b) as any) - ((b > a) as any));
        } 
   }
