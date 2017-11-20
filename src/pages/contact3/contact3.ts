@@ -7,9 +7,19 @@ import { GoogleMapsPage } from '../google-maps/google-maps'
 import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 import { NgProgress } from 'ngx-progressbar';
 import { DomSanitizer } from '@angular/platform-browser'
-import { Observable } from 'rxjs/Observable';
 
 import { VirtualScrollComponent } from 'angular2-virtual-scroll';
+
+import { Observable } from 'rxjs/Observable';
+import { Subject }    from 'rxjs/Subject';
+import { of }         from 'rxjs/observable/of'; 
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
+
+import { SearchPipe } from '../../pipe/searchPipe'
+import { SlicePipe } from '@angular/common';
 
 
 @Component({
@@ -24,9 +34,15 @@ export class Contact3Page {
   liveSync: any;
 
   contacts: any[] = [];
+  allContacts: any[] = [];
+  allContactsLength: number;
+  
   contacts_total_rows: number;
   replication_info: string;
-  
+
+  searchTerm: string = '';
+  searchTerms = new Subject<string>();
+
   toastSubscription: any;
 
   type: ContactType = new ContactType();
@@ -41,6 +57,9 @@ export class Contact3Page {
     public toastsManager: ToastsManager,
     public ngProgress: NgProgress,
     private sanitizer: DomSanitizer,
+    private searchPipe: SearchPipe,
+    private slicePipe: SlicePipe,
+
     
   ) {
 
@@ -52,8 +71,8 @@ export class Contact3Page {
 
   ionViewDidEnter() {
     this.typeShort = this.type.getTypeShort();
-    this.getAllContacts();
-    this.getTotalRows();
+    //this.getAllContacts();
+    //this.getTotalRows();
     
     this.liveSync = this.contactProvider.liveSync().subscribe(
       replication => {
@@ -61,6 +80,8 @@ export class Contact3Page {
         this.replication_info = replication['replication_percent'];
       }
     )
+
+    this.initSearchBox();
 
 
   }
@@ -70,35 +91,55 @@ export class Contact3Page {
   }
 
 
-  getAllContacts() {
-    this.ngProgress.start();
+
+  initSearchBox() {
     this.contactProvider.getAllContacts(this.type.getType()).then(
-
       result => {
-        this.contacts = result.docs
+        console.log("result: ", result)
+        this.allContacts = result.docs as Contact[];
+        this.allContacts.sort(sort_by('name', false, (s:string)=> {return s.toLowerCase()}));
+        this.allContactsLength = this.allContacts.length;
 
-        this.contacts.sort(sort_by('name', false, (s:string)=> {return s.toLowerCase()}));
-        this.contacts = Object.assign([], this.contacts)
+        console.log("allContacts: ",  this.allContacts)
 
-        console.log("this.contacts", this.contacts)
-        this.ngProgress.done();
+        this.applySearchPipe(this.searchTerm);
 
-        //this.startLiveSync();
-      },
-
-      error => {
-        console.log("error", error)
-        this.ngProgress.done();
+        this.searchTerms
+        .debounceTime(100)
+        .distinctUntilChanged()
+        .subscribe(
+          searchTerm => {
+            console.log("searchTerm: ", searchTerm);
+            this.searchTerm = searchTerm;
+            this.applySearchPipe(searchTerm);
+          }
+        )
+    
       }
     )
   }
 
+  // Push a search term into the observable stream.
+  search(term: string): void {
+    //console.log("search: ", term)
+    this.searchTerms.next(term);
+  }
+
+    
+  applySearchPipe (searchTerm) {
+    console.log("searchTerm", searchTerm)
+    let afterSearchPipe = this.searchPipe.transform( this.allContacts,'name, adress', searchTerm);
+    //this.searchCount = afterSearchPipe.length
+    //this.contacts = this.slicePipe.transform(afterSearchPipe,0,this.contactsLimit);
+    this.contacts = afterSearchPipe;
+    console.log("after Pipe: ", this.contacts);
+  }
 
   
   clickChangeType() {
     this.type.next()
     this.typeShort = this.type.getTypeShort();
-    this.getAllContacts();
+    this.initSearchBox();
   }
 
 

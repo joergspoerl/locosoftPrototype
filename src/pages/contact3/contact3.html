@@ -20,9 +20,14 @@
     </ion-navbar>
   
     <ion-navbar>
-      <ion-input style="background-color:white;" placeholder="Search ..." [(ngModel)]="query">
+      <ion-input style="background-color:white;" 
+                 placeholder="Search ..." 
+                 #searchBox id="search-box" 
+                 [(ngModel)]="searchTerm"
+                 (keyup)="search(searchBox.value)">
       </ion-input>
     </ion-navbar>
+
   </ion-header>
   
   
